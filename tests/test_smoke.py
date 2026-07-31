@@ -1,4 +1,4 @@
-"""Smoke test for Mirage Audit.
+"""Smoke test for LookAgain.
 
 Runs the full audit pipeline with fake model and judge implementations.
 This test does not require any API keys or network access and is intended
@@ -16,9 +16,9 @@ from PIL import Image
 # Ensure src/ is on the path when running without editable install.
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from mirage_audit.judge.base import BaseJudge
-from mirage_audit.models.base import BaseVLMModel
-from mirage_audit.test_suite import run_audit
+from lookagain.judge.base import BaseJudge
+from lookagain.models.base import BaseVLMModel
+from lookagain.test_suite import run_audit
 
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "test_cases")
@@ -104,7 +104,7 @@ class FakeJudge(BaseJudge):
 
 
 def test_load_test_cases():
-    from mirage_audit.test_suite import load_test_cases
+    from lookagain.test_suite import load_test_cases
 
     cases = load_test_cases(DATA_DIR)
     assert set(cases.keys()) == {

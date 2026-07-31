@@ -1,4 +1,4 @@
-"""Google Gemini vision model adapter for Mirage Audit."""
+"""Google Gemini vision model adapter for LookAgain."""
 
 import os
 import time
@@ -6,7 +6,7 @@ from typing import Optional
 
 from PIL import Image
 
-from mirage_audit.models.base import BaseVLMModel
+from lookagain.models.base import BaseVLMModel
 
 
 class GeminiVLMModel(BaseVLMModel):
@@ -24,7 +24,7 @@ class GeminiVLMModel(BaseVLMModel):
         except ImportError as exc:
             raise ImportError(
                 "Gemini support requires 'google-generativeai'. Install with: "
-                "pip install mirage-audit[gemini]"
+                "pip install lookagain[gemini]"
             ) from exc
 
         self.api_key = api_key or os.environ.get("GOOGLE_API_KEY")

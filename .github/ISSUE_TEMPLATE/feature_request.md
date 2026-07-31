@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for Mirage Audit
+about: Suggest an idea for LookAgain
 title: '[FEATURE] '
 labels: enhancement
 assignees: ''

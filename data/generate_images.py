@@ -1,4 +1,4 @@
-"""Generate synthetic test images for Mirage Audit.
+"""Generate synthetic test images for LookAgain.
 
 This script creates simple but semantically meaningful placeholder images
 so that the built-in test cases can run without requiring real photographs.

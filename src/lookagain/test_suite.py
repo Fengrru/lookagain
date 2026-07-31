@@ -59,7 +59,7 @@ def run_audit(
     output_dir: Optional[str] = None,
     formats: Optional[List[str]] = None,
 ) -> Dict:
-    """Run the full Mirage audit.
+    """Run the full LookAgain.
 
     Args:
         model: The VLM model to audit.

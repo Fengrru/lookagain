@@ -1,4 +1,4 @@
-"""Anthropic Claude vision model adapter for Mirage Audit."""
+"""Anthropic Claude vision model adapter for LookAgain."""
 
 import base64
 import io
@@ -8,7 +8,7 @@ from typing import Optional
 
 from PIL import Image
 
-from mirage_audit.models.base import BaseVLMModel
+from lookagain.models.base import BaseVLMModel
 
 
 class AnthropicVLMModel(BaseVLMModel):
@@ -26,7 +26,7 @@ class AnthropicVLMModel(BaseVLMModel):
         except ImportError as exc:
             raise ImportError(
                 "Anthropic support requires 'anthropic'. Install with: "
-                "pip install mirage-audit[anthropic]"
+                "pip install lookagain[anthropic]"
             ) from exc
 
         self.api_key = api_key or os.environ.get("ANTHROPIC_API_KEY")

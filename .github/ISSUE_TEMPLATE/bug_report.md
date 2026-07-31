@@ -26,7 +26,7 @@ A clear and concise description of what you expected to happen.
 
 - OS: [e.g. macOS 14, Windows 11, Ubuntu 22.04]
 - Python version: [e.g. 3.11]
-- Mirage Audit version: [e.g. 0.1.0]
+- LookAgain version: [e.g. 0.1.0]
 - Provider: [e.g. openai, anthropic, gemini, http]
 
 **Additional context**

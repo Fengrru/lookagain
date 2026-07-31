@@ -1,7 +1,7 @@
 """Factory for instantiating judge adapters by provider name."""
 
-from mirage_audit.judge.base import BaseJudge
-from mirage_audit.judge.openai_judge import OpenAIJudge
+from lookagain.judge.base import BaseJudge
+from lookagain.judge.openai_judge import OpenAIJudge
 
 
 PROVIDERS = {

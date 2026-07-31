@@ -1,4 +1,4 @@
-"""Generic HTTP/OpenAI-compatible vision model adapter for Mirage Audit.
+"""Generic HTTP/OpenAI-compatible vision model adapter for LookAgain.
 
 Supports local servers such as vLLM, LMDeploy, Ollama (with OpenAI endpoint),
 or any provider exposing the `/v1/chat/completions` endpoint.
@@ -12,7 +12,7 @@ from typing import Optional
 
 from PIL import Image
 
-from mirage_audit.models.base import BaseVLMModel
+from lookagain.models.base import BaseVLMModel
 
 
 class HTTPVLMModel(BaseVLMModel):
@@ -31,7 +31,7 @@ class HTTPVLMModel(BaseVLMModel):
         except ImportError as exc:
             raise ImportError(
                 "HTTP adapter is implemented via the OpenAI client. Install with: "
-                "pip install mirage-audit[openai]"
+                "pip install lookagain[openai]"
             ) from exc
 
         self.base_url = base_url or os.environ.get("MIRAGE_HTTP_BASE_URL")

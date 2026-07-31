@@ -5,7 +5,7 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from mirage_audit.scenarios.missing_image import MissingImageScenario
+from lookagain.scenarios.missing_image import MissingImageScenario
 
 scenario = MissingImageScenario()
 

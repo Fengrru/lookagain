@@ -1,24 +1,22 @@
-"""CLI entry point for Mirage Audit.
+"""CLI entry point for LookAgain.
 
 Usage:
-    mirage audit --provider openai --model gpt-4o
-    mirage audit --provider anthropic --model claude-3-5-sonnet-20241022
-    mirage audit --provider gemini --model gemini-1.5-flash
-    mirage audit --provider http --model Qwen2-VL-7B-Instruct --base-url http://localhost:8000/v1
-    mirage audit --provider openai --model gpt-4o --judge-provider openai --judge gpt-4o
+    LookAgain --provider openai --model gpt-4o
+    LookAgain --provider anthropic --model claude-3-5-sonnet-20241022
+    LookAgain --provider gemini --model gemini-1.5-flash
+    LookAgain --provider http --model Qwen2-VL-7B-Instruct --base-url http://localhost:8000/v1
+    LookAgain --provider openai --model gpt-4o --judge-provider openai --judge gpt-4o
 """
 
 import argparse
 import os
 import sys
 
-from mirage_audit.models.factory import list_providers as list_model_providers
+from lookagain.models.factory import list_providers as list_model_providers
 
 
 def _build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Mirage Audit: VLM Reliability Auditor"
-    )
+    parser = argparse.ArgumentParser(description="LookAgain: VLM Reliability Auditor")
 
     subparsers = parser.add_subparsers(dest="command")
     _add_audit_parser(subparsers)
@@ -136,9 +134,9 @@ def main():
         return
 
     # Lazy imports (so --help is fast)
-    from mirage_audit.judge.factory import create_judge
-    from mirage_audit.models.factory import create_model
-    from mirage_audit.test_suite import run_audit
+    from lookagain.judge.factory import create_judge
+    from lookagain.models.factory import create_model
+    from lookagain.test_suite import run_audit
 
     # Resolve data directory
     if args.data_dir:
@@ -177,7 +175,7 @@ def main():
     # Parse formats
     formats = [f.strip() for f in args.format.split(",")]
 
-    print("Mirage Audit")
+    print("LookAgain")
     print(f"  Provider:         {args.provider}")
     print(f"  Model under test: {args.model}")
     print(f"  Judge provider:   {judge_provider}")

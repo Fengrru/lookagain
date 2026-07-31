@@ -3,14 +3,14 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mirage-audit"
+name = "lookagain"
 version = "0.1.0"
-description = "Mirage Audit: VLM Reliability Auditor — test if your VLM truly relies on visual evidence."
+description = "LookAgain: VLM Reliability Auditor — test if your VLM truly relies on visual evidence."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"
 authors = [
-    { name = "Mirage Contributors" }
+    { name = "LookAgain Contributors" }
 ]
 keywords = [
     "vlm",
@@ -54,8 +54,8 @@ dev = [
 ]
 
 [project.scripts]
-mirage = "mirage_audit.cli:main"
+lookagain = "lookagain.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["mirage_audit", "mirage_audit.*"]
+include = ["lookagain", "lookagain.*"]

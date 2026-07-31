@@ -1,10 +1,10 @@
 """Factory for instantiating VLM adapters by provider name."""
 
-from mirage_audit.models.anthropic_model import AnthropicVLMModel
-from mirage_audit.models.base import BaseVLMModel
-from mirage_audit.models.gemini_model import GeminiVLMModel
-from mirage_audit.models.http_model import HTTPVLMModel
-from mirage_audit.models.openai_model import OpenAIVLMModel
+from lookagain.models.anthropic_model import AnthropicVLMModel
+from lookagain.models.base import BaseVLMModel
+from lookagain.models.gemini_model import GeminiVLMModel
+from lookagain.models.http_model import HTTPVLMModel
+from lookagain.models.openai_model import OpenAIVLMModel
 
 
 PROVIDERS = {

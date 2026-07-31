@@ -1,12 +1,12 @@
-# Mirage Audit
+# LookAgain
 
-**Mirage Audit** is a black-box reliability auditor for Vision-Language Models (VLMs). It tests whether your VLM truly relies on visual evidence, or whether it answers based on text bias, stereotypes, or hallucination when images are missing, corrupted, or misleading.
+**LookAgain** is a black-box reliability auditor for Vision-Language Models (VLMs). It tests whether your VLM truly relies on visual evidence, or whether it answers based on text bias, stereotypes, or hallucination when images are missing, corrupted, or misleading.
 
-> Unlike training-based hallucination mitigators, Mirage Audit treats the model as a black box and only uses API calls. This makes it ideal for auditing commercial VLMs (OpenAI, Anthropic, Google Gemini) and local deployments alike.
+> Unlike training-based hallucination mitigators, LookAgain treats the model as a black box and only uses API calls. This makes it ideal for auditing commercial VLMs (OpenAI, Anthropic, Google Gemini) and local deployments alike.
 
-## Why Mirage Audit?
+## Why LookAgain?
 
-Enterprises deploying VLMs face a hard question: *does this model actually look at the image, or is it just guessing from the prompt?* Mirage Audit answers this with standardized, reproducible tests and a single **Mirage Score**.
+Enterprises deploying VLMs face a hard question: *does this model actually look at the image, or is it just guessing from the prompt?* LookAgain answers this with standardized, reproducible tests and a single **Mirage Score**.
 
 Use cases:
 - **Pre-deployment validation** of VLM products.
@@ -65,16 +65,16 @@ export GOOGLE_API_KEY="..."
 
 ```bash
 # OpenAI GPT-4o
-mirage audit --provider openai --model gpt-4o
+LookAgain --provider openai --model gpt-4o
 
 # Anthropic Claude
-mirage audit --provider anthropic --model claude-3-5-sonnet-20241022
+LookAgain --provider anthropic --model claude-3-5-sonnet-20241022
 
 # Google Gemini
-mirage audit --provider gemini --model gemini-1.5-flash
+LookAgain --provider gemini --model gemini-1.5-flash
 
 # Local vLLM / Ollama / LMDeploy (OpenAI-compatible endpoint)
-mirage audit --provider http --model Qwen2-VL-7B-Instruct --base-url http://localhost:8000/v1
+LookAgain --provider http --model Qwen2-VL-7B-Instruct --base-url http://localhost:8000/v1
 ```
 
 ### 4. View reports
@@ -82,13 +82,13 @@ mirage audit --provider http --model Qwen2-VL-7B-Instruct --base-url http://loca
 Reports are written to `./mirage_results/` by default in the formats you specify:
 
 ```bash
-mirage audit --provider openai --model gpt-4o --format terminal,json,markdown
+LookAgain --provider openai --model gpt-4o --format terminal,json,markdown
 ```
 
 ## CLI Reference
 
 ```bash
-mirage audit \
+LookAgain \
   --provider openai \
   --model gpt-4o \
   --judge-provider openai \
@@ -114,8 +114,8 @@ mirage audit \
 ## Project Structure
 
 ```
-mirage-audit/
-├── src/mirage_audit/
+lookagain/
+├── src/lookagain/
 │   ├── cli.py                 # CLI entry point
 │   ├── test_suite.py          # Orchestrates the four scenarios
 │   ├── scorer.py              # Computes Mirage Score

@@ -1,6 +1,6 @@
-# Contributing to Mirage Audit
+# Contributing to LookAgain
 
-Thank you for your interest in making Mirage Audit better! This document will help you get started.
+Thank you for your interest in making LookAgain better! This document will help you get started.
 
 ## Ways to Contribute
 
@@ -13,8 +13,8 @@ Thank you for your interest in making Mirage Audit better! This document will he
 ## Development Setup
 
 ```bash
-git clone https://github.com/YOUR_ORG/mirage-audit.git
-cd mirage-audit
+git clone https://github.com/YOUR_ORG/lookagain.git
+cd lookagain
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -e ".[all,dev]"
@@ -42,19 +42,19 @@ Please keep formatting clean before opening a pull request.
 
 ## Adding a New Provider
 
-1. Add a new adapter in `src/mirage_audit/models/` inheriting from `BaseVLMModel`.
+1. Add a new adapter in `src/lookagain/models/` inheriting from `BaseVLMModel`.
 2. Add a corresponding judge adapter if it differs from existing ones.
-3. Register both in the factories (`src/mirage_audit/models/factory.py` and `src/mirage_audit/judge/factory.py`).
+3. Register both in the factories (`src/lookagain/models/factory.py` and `src/lookagain/judge/factory.py`).
 4. Add optional dependencies in `pyproject.toml`.
 5. Update the README and CLI reference.
 6. Add a minimal test if possible.
 
 ## Adding a New Scenario
 
-1. Create a module under `src/mirage_audit/scenarios/`.
+1. Create a module under `src/lookagain/scenarios/`.
 2. Implement a callable that accepts `(model, test_case, judge)` and returns a result dict with at least `passed` and `details`.
 3. Add test cases under `data/test_cases/`.
-4. Register the scenario in `src/mirage_audit/test_suite.py` and update `scorer.py` if the scoring logic changes.
+4. Register the scenario in `src/lookagain/test_suite.py` and update `scorer.py` if the scoring logic changes.
 5. Document the scenario in the README.
 
 ## Pull Request Process
