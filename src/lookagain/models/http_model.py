@@ -34,13 +34,13 @@ class HTTPVLMModel(BaseVLMModel):
                 "pip install lookagain[openai]"
             ) from exc
 
-        self.base_url = base_url or os.environ.get("MIRAGE_HTTP_BASE_URL")
+        self.base_url = base_url or os.environ.get("LOOKAGAIN_HTTP_BASE_URL")
         if not self.base_url:
             raise ValueError(
-                "base_url is required. Set MIRAGE_HTTP_BASE_URL or pass --base-url."
+                "base_url is required. Set LOOKAGAIN_HTTP_BASE_URL or pass --base-url."
             )
 
-        key = api_key or os.environ.get("MIRAGE_HTTP_API_KEY", "not-needed")
+        key = api_key or os.environ.get("LOOKAGAIN_HTTP_API_KEY", "not-needed")
         self.client = OpenAI(api_key=key, base_url=self.base_url)
         self.max_retries = max_retries
 

@@ -44,7 +44,7 @@ tb_results = [
 score_data = compute_mirage_score(
     mi_results, wi_results, corr_results, tb_results, corruption_score=90.0
 )
-print(f"Mirage Score: {score_data['mirage_score']}")
+print(f"LookAgain Score: {score_data['mirage_score']}")
 print(f"Visual Reliance: {score_data['visual_reliance']}")
 print(f"Missing Image Failure: {score_data['missing_image_failure']}%")
 print(f"Wrong Image Failure: {score_data['wrong_image_failure']}%")
@@ -54,7 +54,7 @@ print(f"Text Bias Rate: {score_data['text_bias_rate']}%")
 # Verify formula: 100 - (33.3*0.35 + 50*0.30 + (100-90)*0.15 + 50*0.20)
 # = 100 - (11.67 + 15.0 + 1.5 + 10.0) = 100 - 38.17 = 61.8
 expected = 100 - (100 / 3 * 0.35 + 50 * 0.30 + 10 * 0.15 + 50 * 0.20)
-print(f"Expected Mirage Score: {expected:.1f}")
+print(f"Expected LookAgain Score: {expected:.1f}")
 assert abs(score_data["mirage_score"] - expected) < 0.5, (
     f"Score mismatch: {score_data['mirage_score']} vs {expected:.1f}"
 )
@@ -84,7 +84,7 @@ with tempfile.TemporaryDirectory() as tmpdir:
     with open(md_path, encoding="utf-8") as f:
         content = f.read()
     print(f"Markdown report length: {len(content)} chars")
-    assert "Mirage Score" in content
+    assert "LookAgain Score" in content
     print("Markdown report PASSED")
 
 # Test terminal report (just ensure no crash)

@@ -81,7 +81,7 @@ def print_terminal_report(
 {sep}
 |          LookAgain Report              |
 |          Model: {model_name:<28}|
-|          Mirage Score: {ms:<4.1f}/100          {risk_level:<20}|
+|          LookAgain Score: {ms:<4.1f}/100        {risk_level:<20}|
 {sep.replace("+", "|").replace("-", "-")}
 | Visual Reliance        {vr:<5.1f}%    {marker(wif, good_below=True):6s} |
 | Missing Image Failure  {mif:<5.1f}%    {marker(mif, good_below=True):6s} |
@@ -92,7 +92,7 @@ def print_terminal_report(
 | High Risk Categories:                  |
 {risk_lines}
 {sep.replace("+", "|").replace("-", "-")}
-| Detailed report: ./mirage_report.md     |
+| Detailed report: ./lookagain_report.md  |
 {sep}
 """
     print(_safe_marker(report))
@@ -163,7 +163,7 @@ def generate_markdown_report(
         "# LookAgain Report",
         "",
         f"**Model:** `{model_name}`  ",
-        f"**Mirage Score:** {ms}/100 — {risk_level}",
+        f"**LookAgain Score:** {ms}/100 — {risk_level}",
         "",
         "## Summary",
         "",

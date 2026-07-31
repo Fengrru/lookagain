@@ -131,13 +131,13 @@ def run_audit(
         print_terminal_report(model.model_name, score_data, risk_categories)
 
     if "json" in formats and output_dir:
-        json_path = os.path.join(output_dir, "mirage_report.json")
+        json_path = os.path.join(output_dir, "lookagain_report.json")
         generate_json_report(
             model.model_name, score_data, risk_categories, all_results, json_path
         )
 
     if "markdown" in formats and output_dir:
-        md_path = os.path.join(output_dir, "mirage_report.md")
+        md_path = os.path.join(output_dir, "lookagain_report.md")
         generate_markdown_report(
             model.model_name, score_data, risk_categories, all_results, md_path
         )

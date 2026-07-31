@@ -1,13 +1,13 @@
-"""Mirage Score calculator.
+"""LookAgain Score calculator.
 
 Weighted composite score from four sub-indicators:
-  Mirage Score = 100 - (MissingImageFailure × 0.35
-                      + WrongImageFailure  × 0.30
-                      + (100 - CorruptionScore) × 0.15
-                      + TextBiasRate       × 0.20)
+  LookAgain Score = 100 - (MissingImageFailure × 0.35
+                         + WrongImageFailure  × 0.30
+                         + (100 - CorruptionScore) × 0.15
+                         + TextBiasRate       × 0.20)
 
 All sub-indicators are on 0–100 scale (higher = worse).
-Mirage Score is on 0–100 scale (higher = better).
+LookAgain Score is on 0–100 scale (higher = better).
 """
 
 from typing import Dict, List
@@ -31,7 +31,7 @@ def compute_mirage_score(
     text_bias_results: List[TestResult],
     corruption_score: float,  # 0–100, from CorruptionScenario.corruption_score
 ) -> Dict:
-    """Compute the composite Mirage Score and sub-indicators.
+    """Compute the composite LookAgain Score and sub-indicators.
 
     Args:
         missing_image_results: Results from MissingImageScenario.
@@ -41,9 +41,9 @@ def compute_mirage_score(
         corruption_score: Pre-computed corruption robustness score (0–100).
 
     Returns:
-        dict with keys: mirage_score, visual_reliance, missing_image_failure,
-                       wrong_image_failure, corruption_robustness, text_bias_rate,
-                       sub_scores
+        dict with keys: mirage_score (LookAgain Score), visual_reliance,
+                       missing_image_failure, wrong_image_failure,
+                       corruption_robustness, text_bias_rate, sub_scores
     """
     # Sub-indicators (0–100, higher = worse, except corruption)
     missing_image_failure = _failure_rate(missing_image_results)

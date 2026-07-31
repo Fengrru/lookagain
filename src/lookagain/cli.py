@@ -59,13 +59,13 @@ def _add_audit_parser(subparsers):
         "--base-url",
         type=str,
         default=None,
-        help="Base URL for HTTP/local provider (default: MIRAGE_HTTP_BASE_URL env var)",
+        help="Base URL for HTTP/local provider (default: LOOKAGAIN_HTTP_BASE_URL env var)",
     )
     p.add_argument(
         "--output",
         type=str,
-        default="./mirage_results",
-        help="Output directory for reports (default: ./mirage_results)",
+        default="./lookagain_results",
+        help="Output directory for reports (default: ./lookagain_results)",
     )
     p.add_argument(
         "--format",
@@ -193,7 +193,7 @@ def main():
         formats=formats,
     )
 
-    print(f"\nAudit complete. Mirage Score: {score_data['mirage_score']}/100")
+    print(f"\nAudit complete. LookAgain Score: {score_data['mirage_score']}/100")
 
 
 if __name__ == "__main__":

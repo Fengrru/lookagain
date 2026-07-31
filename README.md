@@ -6,7 +6,7 @@
 
 ## Why LookAgain?
 
-Enterprises deploying VLMs face a hard question: *does this model actually look at the image, or is it just guessing from the prompt?* LookAgain answers this with standardized, reproducible tests and a single **Mirage Score**.
+Enterprises deploying VLMs face a hard question: *does this model actually look at the image, or is it just guessing from the prompt?* LookAgain answers this with standardized, reproducible tests and a single **LookAgain Score** (also referred to as the Mirage Score in research contexts).
 
 Use cases:
 - **Pre-deployment validation** of VLM products.
@@ -23,7 +23,7 @@ Use cases:
 | **Image Corruption** | Is the model robust to blur, noise, and occlusion? |
 | **Text Bias** | Does misleading or suggestive text cause the model to ignore the image? |
 
-The final **Mirage Score** combines these four dimensions into a 0–100 reliability rating with clear risk bands.
+The final **LookAgain Score** combines these four dimensions into a 0–100 reliability rating with clear risk bands.
 
 ## Installation
 
@@ -79,7 +79,7 @@ LookAgain --provider http --model Qwen2-VL-7B-Instruct --base-url http://localho
 
 ### 4. View reports
 
-Reports are written to `./mirage_results/` by default in the formats you specify:
+Reports are written to `./lookagain_results/` by default in the formats you specify:
 
 ```bash
 LookAgain --provider openai --model gpt-4o --format terminal,json,markdown
@@ -118,7 +118,7 @@ lookagain/
 ├── src/lookagain/
 │   ├── cli.py                 # CLI entry point
 │   ├── test_suite.py          # Orchestrates the four scenarios
-│   ├── scorer.py              # Computes Mirage Score
+│   ├── scorer.py              # Computes LookAgain Score
 │   ├── reporter.py            # terminal / json / markdown reports
 │   ├── models/                # VLM adapters
 │   │   ├── openai_model.py
