@@ -1,0 +1,74 @@
+[
+  {
+    "id": "missing_counting_001",
+    "question": "How many people are in this image?",
+    "risk_category": "Counting",
+    "image_path": ""
+  },
+  {
+    "id": "missing_counting_002",
+    "question": "Count the number of chairs visible in the picture.",
+    "risk_category": "Counting",
+    "image_path": ""
+  },
+  {
+    "id": "missing_counting_003",
+    "question": "How many cars are parked in this scene?",
+    "risk_category": "Counting",
+    "image_path": ""
+  },
+  {
+    "id": "missing_ocr_001",
+    "question": "What text is written on the sign in this image?",
+    "risk_category": "OCR",
+    "image_path": ""
+  },
+  {
+    "id": "missing_ocr_002",
+    "question": "Read the license plate number from this photo.",
+    "risk_category": "OCR",
+    "image_path": ""
+  },
+  {
+    "id": "missing_ocr_003",
+    "question": "What does the document in the image say?",
+    "risk_category": "OCR",
+    "image_path": ""
+  },
+  {
+    "id": "missing_spatial_001",
+    "question": "Is the red ball to the left or right of the blue box?",
+    "risk_category": "Spatial Reasoning",
+    "image_path": ""
+  },
+  {
+    "id": "missing_spatial_002",
+    "question": "Which object is closer to the camera in this scene?",
+    "risk_category": "Spatial Reasoning",
+    "image_path": ""
+  },
+  {
+    "id": "missing_spatial_003",
+    "question": "Describe the spatial arrangement of furniture in this room.",
+    "risk_category": "Spatial Reasoning",
+    "image_path": ""
+  },
+  {
+    "id": "missing_object_001",
+    "question": "What color is the animal in this photo?",
+    "risk_category": "Object Recognition",
+    "image_path": ""
+  },
+  {
+    "id": "missing_object_002",
+    "question": "What breed of dog is shown in the picture?",
+    "risk_category": "Object Recognition",
+    "image_path": ""
+  },
+  {
+    "id": "missing_object_003",
+    "question": "Describe the clothing the person is wearing in this image.",
+    "risk_category": "Object Recognition",
+    "image_path": ""
+  }
+]

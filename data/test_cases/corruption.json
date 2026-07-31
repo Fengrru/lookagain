@@ -1,0 +1,74 @@
+[
+  {
+    "id": "corr_object_001",
+    "question": "What animal is in this image?",
+    "risk_category": "Object Recognition",
+    "image_path": "images/corruption/cat.jpg"
+  },
+  {
+    "id": "corr_object_002",
+    "question": "What fruit is shown in the picture?",
+    "risk_category": "Object Recognition",
+    "image_path": "images/corruption/apple.jpg"
+  },
+  {
+    "id": "corr_object_003",
+    "question": "What type of vehicle is this?",
+    "risk_category": "Object Recognition",
+    "image_path": "images/corruption/bicycle.jpg"
+  },
+  {
+    "id": "corr_scene_001",
+    "question": "Describe the weather in this scene.",
+    "risk_category": "Scene Understanding",
+    "image_path": "images/corruption/beach_sunny.jpg"
+  },
+  {
+    "id": "corr_scene_002",
+    "question": "What type of location is shown in this image?",
+    "risk_category": "Scene Understanding",
+    "image_path": "images/corruption/city_street.jpg"
+  },
+  {
+    "id": "corr_counting_001",
+    "question": "How many people are visible in this photo?",
+    "risk_category": "Counting",
+    "image_path": "images/corruption/group_photo.jpg"
+  },
+  {
+    "id": "corr_counting_002",
+    "question": "How many cups are on the table?",
+    "risk_category": "Counting",
+    "image_path": "images/corruption/table_setting.jpg"
+  },
+  {
+    "id": "corr_ocr_001",
+    "question": "What text is visible in this image?",
+    "risk_category": "OCR",
+    "image_path": "images/corruption/street_sign.jpg"
+  },
+  {
+    "id": "corr_ocr_002",
+    "question": "Read the text on the book cover.",
+    "risk_category": "OCR",
+    "image_path": "images/corruption/book_cover.jpg"
+  },
+  {
+    "id": "corr_spatial_001",
+    "question": "Which object is closer to the camera?",
+    "risk_category": "Spatial Reasoning",
+    "image_path": "images/corruption/near_far.jpg"
+  },
+  {
+    "id": "corr_spatial_002",
+    "question": "Is the red object to the left or right of the blue object?",
+    "risk_category": "Spatial Reasoning",
+    "image_path": "images/corruption/left_right.jpg"
+  },
+  {
+    "id": "corr_color_001",
+    "question": "What color is the largest object in this image?",
+    "risk_category": "Object Recognition",
+    "image_path": "images/corruption/colored_objects.jpg"
+  }
+]

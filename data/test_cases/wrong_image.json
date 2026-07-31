@@ -1,0 +1,159 @@
+[
+  {
+    "id": "wrong_object_001",
+    "question": "What animal is in this image?",
+    "risk_category": "Object Recognition",
+    "correct_image_path": "images/wrong/cat_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/dog_wrong.jpg",
+      "images/wrong/bird_wrong.jpg",
+      "images/wrong/car_wrong.jpg",
+      "images/wrong/cat_other.jpg"
+    ]
+  },
+  {
+    "id": "wrong_object_002",
+    "question": "What fruit is shown in the picture?",
+    "risk_category": "Object Recognition",
+    "correct_image_path": "images/wrong/apple_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/banana_wrong.jpg",
+      "images/wrong/orange_wrong.jpg",
+      "images/wrong/tomato_wrong.jpg",
+      "images/wrong/apple_green.jpg"
+    ]
+  },
+  {
+    "id": "wrong_object_003",
+    "question": "What type of vehicle is in this scene?",
+    "risk_category": "Object Recognition",
+    "correct_image_path": "images/wrong/bicycle_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/motorcycle_wrong.jpg",
+      "images/wrong/car_wrong.jpg",
+      "images/wrong/boat_wrong.jpg",
+      "images/wrong/bicycle_other.jpg"
+    ]
+  },
+  {
+    "id": "wrong_scene_001",
+    "question": "What time of day does this photo appear to be taken?",
+    "risk_category": "Scene Understanding",
+    "correct_image_path": "images/wrong/sunset_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/noon_wrong.jpg",
+      "images/wrong/night_wrong.jpg",
+      "images/wrong/dawn_wrong.jpg"
+    ]
+  },
+  {
+    "id": "wrong_scene_002",
+    "question": "What kind of weather is shown in this image?",
+    "risk_category": "Scene Understanding",
+    "correct_image_path": "images/wrong/rainy_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/sunny_wrong.jpg",
+      "images/wrong/snowy_wrong.jpg",
+      "images/wrong/foggy_wrong.jpg"
+    ]
+  },
+  {
+    "id": "wrong_counting_001",
+    "question": "How many people are in this photo?",
+    "risk_category": "Counting",
+    "correct_image_path": "images/wrong/three_people_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/one_person_wrong.jpg",
+      "images/wrong/five_people_wrong.jpg",
+      "images/wrong/no_people_wrong.jpg"
+    ]
+  },
+  {
+    "id": "wrong_counting_002",
+    "question": "How many apples are on the table?",
+    "risk_category": "Counting",
+    "correct_image_path": "images/wrong/two_apples_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/four_apples_wrong.jpg",
+      "images/wrong/zero_apples_wrong.jpg",
+      "images/wrong/six_apples_wrong.jpg"
+    ]
+  },
+  {
+    "id": "wrong_color_001",
+    "question": "What color is the car in the picture?",
+    "risk_category": "Object Recognition",
+    "correct_image_path": "images/wrong/red_car_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/blue_car_wrong.jpg",
+      "images/wrong/white_car_wrong.jpg",
+      "images/wrong/red_car_other.jpg"
+    ]
+  },
+  {
+    "id": "wrong_color_002",
+    "question": "What color is the dress the person is wearing?",
+    "risk_category": "Object Recognition",
+    "correct_image_path": "images/wrong/green_dress_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/yellow_dress_wrong.jpg",
+      "images/wrong/black_dress_wrong.jpg",
+      "images/wrong/green_shirt_wrong.jpg"
+    ]
+  },
+  {
+    "id": "wrong_spatial_001",
+    "question": "Is the cup on the left or right side of the table?",
+    "risk_category": "Spatial Reasoning",
+    "correct_image_path": "images/wrong/cup_left_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/cup_right_wrong.jpg",
+      "images/wrong/cup_center_wrong.jpg",
+      "images/wrong/no_cup_wrong.jpg"
+    ]
+  },
+  {
+    "id": "wrong_ocr_001",
+    "question": "What does the street sign say?",
+    "risk_category": "OCR",
+    "correct_image_path": "images/wrong/sign_stop_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/sign_yield_wrong.jpg",
+      "images/wrong/sign_speed_wrong.jpg",
+      "images/wrong/no_sign_wrong.jpg"
+    ]
+  },
+  {
+    "id": "wrong_ocr_002",
+    "question": "What is the brand name on the product?",
+    "risk_category": "OCR",
+    "correct_image_path": "images/wrong/brand_coke_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/brand_pepsi_wrong.jpg",
+      "images/wrong/brand_water_wrong.jpg",
+      "images/wrong/no_brand_wrong.jpg"
+    ]
+  },
+  {
+    "id": "wrong_action_001",
+    "question": "What action is the person performing?",
+    "risk_category": "Action Recognition",
+    "correct_image_path": "images/wrong/running_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/sitting_wrong.jpg",
+      "images/wrong/jumping_wrong.jpg",
+      "images/wrong/standing_wrong.jpg"
+    ]
+  },
+  {
+    "id": "wrong_action_002",
+    "question": "What sport is being played in this image?",
+    "risk_category": "Action Recognition",
+    "correct_image_path": "images/wrong/soccer_correct.jpg",
+    "wrong_image_paths": [
+      "images/wrong/basketball_wrong.jpg",
+      "images/wrong/tennis_wrong.jpg",
+      "images/wrong/swimming_wrong.jpg"
+    ]
+  }
+]
