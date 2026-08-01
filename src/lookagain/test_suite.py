@@ -21,6 +21,9 @@ from .reporter import (
     generate_json_report,
     generate_markdown_report,
 )
+from .utils.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 def load_test_cases(data_dir: str) -> Dict[str, List[Dict]]:
@@ -46,7 +49,7 @@ def load_test_cases(data_dir: str) -> Dict[str, List[Dict]]:
             with open(path, "r", encoding="utf-8") as f:
                 test_cases[key] = json.load(f)
         else:
-            print(f"Warning: test case file not found: {path}")
+            logger.warning(f"Test case file not found: {path}")
             test_cases[key] = []
 
     return test_cases
@@ -75,42 +78,42 @@ def run_audit(
         formats = ["terminal"]
 
     # Load test cases
-    print("Loading test cases...")
+    logger.info("Loading test cases...")
     test_cases = load_test_cases(data_dir)
 
     all_results: List[TestResult] = []
 
     # --- Scenario 1: Missing Image ---
-    print("\n[1/4] Running Missing Image tests...")
+    logger.info("[1/4] Running Missing Image tests...")
     mi_scenario = MissingImageScenario()
     mi_results = mi_scenario.run(model, judge, test_cases.get("missing_image", []))
     all_results.extend(mi_results)
     mi_failed = sum(1 for r in mi_results if not r.passed)
-    print(f"  {len(mi_results)} tests, {mi_failed} failed")
+    logger.info(f"  {len(mi_results)} tests, {mi_failed} failed")
 
     # --- Scenario 2: Wrong Image ---
-    print("\n[2/4] Running Wrong Image tests...")
+    logger.info("[2/4] Running Wrong Image tests...")
     wi_scenario = WrongImageScenario()
     wi_results = wi_scenario.run(model, judge, test_cases.get("wrong_image", []))
     all_results.extend(wi_results)
     wi_failed = sum(1 for r in wi_results if not r.passed)
-    print(f"  {len(wi_results)} tests, {wi_failed} failed")
+    logger.info(f"  {len(wi_results)} tests, {wi_failed} failed")
 
     # --- Scenario 3: Image Corruption ---
-    print("\n[3/4] Running Image Corruption tests...")
+    logger.info("[3/4] Running Image Corruption tests...")
     corr_scenario = CorruptionScenario()
     corr_results = corr_scenario.run(model, judge, test_cases.get("corruption", []))
     all_results.extend(corr_results)
     corr_score = corr_scenario.corruption_score
-    print(f"  {len(corr_results)} tests, robustness score: {corr_score:.1f}%")
+    logger.info(f"  {len(corr_results)} tests, robustness score: {corr_score:.1f}%")
 
     # --- Scenario 4: Text Bias ---
-    print("\n[4/4] Running Text Bias tests...")
+    logger.info("[4/4] Running Text Bias tests...")
     tb_scenario = TextBiasScenario()
     tb_results = tb_scenario.run(model, judge, test_cases.get("text_bias", []))
     all_results.extend(tb_results)
     tb_failed = sum(1 for r in tb_results if not r.passed)
-    print(f"  {len(tb_results)} tests, {tb_failed} failed")
+    logger.info(f"  {len(tb_results)} tests, {tb_failed} failed")
 
     # Compute scores
     score_data = compute_mirage_score(

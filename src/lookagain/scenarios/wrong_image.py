@@ -5,17 +5,17 @@ Uses embedding similarity: high similarity between correct-image and
 wrong-image answers → model ignored the visual input (FAIL).
 """
 
-import os
-from typing import Dict, List, Optional
-
-from PIL import Image
+from typing import Dict, List
 
 from ..utils.embedding import compute_similarities
+from ..utils.image_utils import load_image
 from .base import BaseScenario, TestResult
 
 
-# Threshold: if all wrong-image answers have >70% similarity to correct
-# answer, the model is likely NOT relying on visual input.
+# Threshold: if the MAXIMUM similarity between correct-image and wrong-image
+# answers is above this threshold, the model is likely NOT relying on visual input.
+# We check max_sim because if ANY wrong image causes a sufficiently different answer,
+# it means the model CAN detect visual differences.
 SIMILARITY_THRESHOLD = 0.70
 
 
@@ -37,8 +37,8 @@ class WrongImageScenario(BaseScenario):
             wrong_image_paths = tc.get("wrong_image_paths", [])
 
             # Load images
-            correct_img = self._load_image(correct_image_path)
-            wrong_imgs = [self._load_image(p) for p in wrong_image_paths]
+            correct_img = load_image(correct_image_path)
+            wrong_imgs = [load_image(p) for p in wrong_image_paths]
             wrong_imgs = [img for img in wrong_imgs if img is not None]
 
             if correct_img is None or not wrong_imgs:
@@ -64,8 +64,9 @@ class WrongImageScenario(BaseScenario):
             max_sim = max(similarities) if similarities else 1.0
             avg_sim = sum(similarities) / len(similarities) if similarities else 1.0
 
-            # If ALL wrong-image answers are highly similar to correct answer,
-            # the model is likely ignoring visual differences.
+            # If the MAXIMUM similarity is below threshold, it means at least one
+            # wrong image caused a different answer, so the model IS detecting
+            # visual differences. PASS.
             passed = max_sim < SIMILARITY_THRESHOLD
 
             reason = (
@@ -97,13 +98,3 @@ class WrongImageScenario(BaseScenario):
             )
 
         return self.results
-
-    @staticmethod
-    def _load_image(path: str) -> Optional[Image.Image]:
-        """Load an image from path, return None on failure."""
-        if not path or not os.path.exists(path):
-            return None
-        try:
-            return Image.open(path).convert("RGB")
-        except Exception:
-            return None

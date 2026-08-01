@@ -5,13 +5,10 @@ Measures embedding similarity decay between original-answer and each
 corrupted-answer. Score = area under the similarity curve (higher = more robust).
 """
 
-import os
-from typing import Dict, List, Optional
-
-from PIL import Image
+from typing import Dict, List
 
 from ..utils.embedding import compute_similarities
-from ..utils.image_utils import generate_corruptions
+from ..utils.image_utils import generate_corruptions, load_image
 from .base import BaseScenario, TestResult
 
 
@@ -40,7 +37,7 @@ class CorruptionScenario(BaseScenario):
             risk_category = tc.get("risk_category", "")
             image_path = tc.get("image_path", "")
 
-            original_img = self._load_image(image_path)
+            original_img = load_image(image_path)
             if original_img is None:
                 self.results.append(
                     TestResult(
@@ -120,12 +117,3 @@ class CorruptionScenario(BaseScenario):
             return 100.0
         auc_values = [r.details.get("auc", 0.0) for r in self.results]
         return (sum(auc_values) / len(auc_values)) * 100.0
-
-    @staticmethod
-    def _load_image(path: str) -> Optional[Image.Image]:
-        if not path or not os.path.exists(path):
-            return None
-        try:
-            return Image.open(path).convert("RGB")
-        except Exception:
-            return None

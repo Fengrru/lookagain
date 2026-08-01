@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Configuration file support (YAML/TOML/JSON)
+- Environment variable configuration
+- Structured logging system
+- Shared image loading utilities
+- Dynamic test case counting for dry-run mode
+
+### Fixed
+
+- Missing image reference in wrong_image.json test cases
+- Similarity threshold logic in WrongImage scenario
+- Resource leak in embedding client (client caching)
+- Data path resolution for package installations
+- Dry-run mode hardcoded test case count
+
+### Changed
+
+- Replaced duplicate `_load_image()` methods with shared utility function
+- Improved error messages and logging output
+- Updated documentation to professional standards
+
 ## [0.1.0] - 2026-07-31
 
 ### Added
@@ -19,5 +41,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - LLM-as-Judge for nuanced cases, with rule-based fast paths.
 - Terminal, JSON, and Markdown report formats.
 - Synthetic test image generator (`data/generate_images.py`) so the benchmark runs out of the box.
-- CLI entry point: `LookAgain`.
+- CLI entry point: `lookagain`.
 - Smoke tests that do not require API keys.
+
+---
+
+## Versioning
+
+We use [SemVer](https://semver.org/) for versioning. For the versions available, see the tags on this repository.
+
+## How to Update This File
+
+1. Add a new section under `[Unreleased]`
+2. Follow the categories: Added, Changed, Deprecated, Removed, Fixed, Security
+3. Move items to the appropriate version when released
+4. Add a new version header with the release date

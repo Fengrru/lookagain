@@ -6,6 +6,9 @@ import sys
 from typing import Dict, List
 
 from .scenarios.base import TestResult
+from .utils.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 def _safe_marker(text: str) -> str:
@@ -138,7 +141,7 @@ def generate_json_report(
     os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(report, f, indent=2, ensure_ascii=False)
-    print(f"JSON report saved to {output_path}")
+    logger.info(f"JSON report saved to {output_path}")
 
 
 def generate_markdown_report(
@@ -211,4 +214,4 @@ def generate_markdown_report(
     os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
-    print(f"Markdown report saved to {output_path}")
+    logger.info(f"Markdown report saved to {output_path}")

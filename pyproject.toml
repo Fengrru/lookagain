@@ -20,6 +20,8 @@ keywords = [
     "vision-language",
     "hallucination",
     "testing",
+    "benchmark",
+    "evaluation",
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -31,9 +33,18 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Software Development :: Testing",
+    "Operating System :: OS Independent",
 ]
+
+[project.urls]
+Homepage = "https://github.com/your-org/lookagain"
+Documentation = "https://github.com/your-org/lookagain#readme"
+Repository = "https://github.com/your-org/lookagain"
+Issues = "https://github.com/your-org/lookagain/issues"
+Changelog = "https://github.com/your-org/lookagain/blob/main/CHANGELOG.md"
 
 dependencies = [
     "openai>=1.0",
@@ -50,6 +61,7 @@ all = [
 ]
 dev = [
     "pytest>=7.0",
+    "pytest-cov>=4.0",
     "ruff>=0.5.0",
 ]
 
@@ -59,3 +71,20 @@ lookagain = "lookagain.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["lookagain", "lookagain.*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"

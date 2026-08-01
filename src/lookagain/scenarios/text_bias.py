@@ -4,11 +4,9 @@ Tests whether misleading text prompts cause the model to ignore image content.
 Uses LLM-as-Judge exclusively (rules cannot handle semantic conflict detection).
 """
 
-import os
-from typing import Dict, List, Optional
+from typing import Dict, List
 
-from PIL import Image
-
+from ..utils.image_utils import load_image
 from .base import BaseScenario, TestResult
 
 
@@ -29,7 +27,7 @@ class TextBiasScenario(BaseScenario):
             image_path = tc.get("image_path", "")
             ground_truth = tc.get("ground_truth", "")
 
-            img = self._load_image(image_path)
+            img = load_image(image_path)
             if img is None:
                 self.results.append(
                     TestResult(
@@ -84,12 +82,3 @@ class TextBiasScenario(BaseScenario):
             )
 
         return self.results
-
-    @staticmethod
-    def _load_image(path: str) -> Optional[Image.Image]:
-        if not path or not os.path.exists(path):
-            return None
-        try:
-            return Image.open(path).convert("RGB")
-        except Exception:
-            return None

@@ -6,6 +6,25 @@ import numpy as np
 from openai import OpenAI
 
 
+# Client cache to avoid creating new clients for each call
+_clients = {}
+
+
+def _get_client(api_key: Optional[str] = None) -> OpenAI:
+    """Get or create an OpenAI client with caching.
+
+    Args:
+        api_key: Optional API key. If None, uses environment variable.
+
+    Returns:
+        Cached OpenAI client instance.
+    """
+    client_key = api_key or "default"
+    if client_key not in _clients:
+        _clients[client_key] = OpenAI(api_key=api_key)
+    return _clients[client_key]
+
+
 def compute_similarity(
     text_a: str,
     text_b: str,
@@ -21,7 +40,7 @@ def compute_similarity(
     Returns:
         Cosine similarity in [0, 1].
     """
-    client = OpenAI(api_key=api_key)
+    client = _get_client(api_key)
 
     response = client.embeddings.create(
         model="text-embedding-3-small",
@@ -59,7 +78,7 @@ def compute_similarities(
     if not candidates:
         return []
 
-    client = OpenAI(api_key=api_key)
+    client = _get_client(api_key)
     all_texts = [reference] + candidates
 
     response = client.embeddings.create(

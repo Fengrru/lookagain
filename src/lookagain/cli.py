@@ -13,6 +13,9 @@ import os
 import sys
 
 from lookagain.models.factory import list_providers as list_model_providers
+from lookagain.utils.logging_config import setup_logging, get_logger
+
+logger = get_logger(__name__)
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -34,13 +37,13 @@ def _add_audit_parser(subparsers):
     p.add_argument(
         "--provider",
         type=str,
-        default="openai",
+        default=None,
         help=f"VLM provider (default: openai). Supported: {providers}",
     )
     p.add_argument(
         "--model",
         type=str,
-        default="gpt-4o",
+        default=None,
         help="VLM model to audit (default: gpt-4o)",
     )
     p.add_argument(
@@ -64,13 +67,13 @@ def _add_audit_parser(subparsers):
     p.add_argument(
         "--output",
         type=str,
-        default="./lookagain_results",
+        default=None,
         help="Output directory for reports (default: ./lookagain_results)",
     )
     p.add_argument(
         "--format",
         type=str,
-        default="terminal,json,markdown",
+        default=None,
         help="Report formats: terminal,json,markdown (comma-separated)",
     )
     p.add_argument(
@@ -89,6 +92,12 @@ def _add_audit_parser(subparsers):
         type=str,
         default=None,
         help="API key for the selected provider (default: provider-specific env var)",
+    )
+    p.add_argument(
+        "--config",
+        type=str,
+        default=None,
+        help="Path to configuration file (default: .lookagain.yaml)",
     )
 
 
@@ -120,6 +129,31 @@ Token Usage Estimate (dry-run):
 """)
 
 
+def _count_test_cases(data_dir: str) -> int:
+    """Count total test cases across all scenario files.
+
+    Args:
+        data_dir: Path to the test_cases directory.
+
+    Returns:
+        Total number of test cases.
+    """
+    import json
+
+    count = 0
+    for filename in ["missing_image.json", "wrong_image.json", "corruption.json", "text_bias.json"]:
+        filepath = os.path.join(data_dir, filename)
+        if os.path.exists(filepath):
+            try:
+                with open(filepath, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    if isinstance(data, list):
+                        count += len(data)
+            except (json.JSONDecodeError, IOError):
+                pass
+    return count
+
+
 def main():
     parser = _build_parser()
     args = parser.parse_args()
@@ -128,72 +162,92 @@ def main():
         parser.print_help()
         return
 
-    # Dry-run mode
-    if args.dry_run:
-        _estimate_tokens(test_case_count=50)
-        return
+    # Setup logging
+    setup_logging()
 
-    # Lazy imports (so --help is fast)
-    from lookagain.judge.factory import create_judge
-    from lookagain.models.factory import create_model
-    from lookagain.test_suite import run_audit
+    # Load configuration
+    from lookagain.config import load_config, get_default_config_path
+
+    config_file = args.config or get_default_config_path()
+    cli_args = {
+        "provider": args.provider,
+        "model": args.model,
+        "api_key": args.api_key,
+        "base_url": args.base_url,
+        "judge_provider": args.judge_provider,
+        "judge": args.judge,
+        "output": args.output,
+        "format": args.format,
+        "data_dir": args.data_dir,
+    }
+    config = load_config(config_file=config_file, cli_args=cli_args)
 
     # Resolve data directory
-    if args.data_dir:
-        data_dir = args.data_dir
+    if config.data_dir:
+        data_dir = config.data_dir
     else:
         # Default: look for data/test_cases relative to package
         package_dir = os.path.dirname(os.path.abspath(__file__))
         data_dir = os.path.join(package_dir, "..", "..", "data", "test_cases")
         data_dir = os.path.normpath(data_dir)
 
+    # Dry-run mode
+    if args.dry_run:
+        test_case_count = _count_test_cases(data_dir)
+        _estimate_tokens(test_case_count)
+        return
+
     if not os.path.isdir(data_dir):
-        print(f"Error: test_cases directory not found: {data_dir}")
-        print("Use --data-dir to specify a custom path.")
+        logger.error(f"Test cases directory not found: {data_dir}")
+        logger.info("Use --data-dir to specify a custom path.")
         sys.exit(1)
 
-    # Build model adapter
-    model_kwargs = {"model_name": args.model}
-    if args.provider == "http":
-        model_kwargs["base_url"] = args.base_url
-    if args.api_key:
-        model_kwargs["api_key"] = args.api_key
+    # Lazy imports (so --help is fast)
+    from lookagain.judge.factory import create_judge
+    from lookagain.models.factory import create_model
+    from lookagain.test_suite import run_audit
 
-    model = create_model(args.provider, **model_kwargs)
+    # Build model adapter
+    model_kwargs = {"model_name": config.model.model}
+    if config.model.provider == "http":
+        model_kwargs["base_url"] = config.model.base_url
+    if config.model.api_key:
+        model_kwargs["api_key"] = config.model.api_key
+
+    model = create_model(config.model.provider, **model_kwargs)
 
     # Build judge adapter
-    judge_provider = args.judge_provider or args.provider
-    judge_model_name = args.judge or args.model
+    judge_provider = config.judge.provider or config.model.provider
+    judge_model_name = config.judge.model or config.model.model
     judge_kwargs = {"model_name": judge_model_name}
-    if args.api_key:
-        judge_kwargs["api_key"] = args.api_key
+    if config.judge.api_key:
+        judge_kwargs["api_key"] = config.judge.api_key
     if judge_provider == "http":
-        judge_kwargs["base_url"] = args.base_url
+        judge_kwargs["base_url"] = config.model.base_url
 
     judge = create_judge(judge_provider, **judge_kwargs)
 
     # Parse formats
-    formats = [f.strip() for f in args.format.split(",")]
+    formats = config.output.formats
 
-    print("LookAgain")
-    print(f"  Provider:         {args.provider}")
-    print(f"  Model under test: {args.model}")
-    print(f"  Judge provider:   {judge_provider}")
-    print(f"  Judge:            {judge_model_name}")
-    print(f"  Output:           {args.output}")
-    print(f"  Formats:          {formats}")
-    print()
+    logger.info("LookAgain")
+    logger.info(f"  Provider:         {config.model.provider}")
+    logger.info(f"  Model under test: {config.model.model}")
+    logger.info(f"  Judge provider:   {judge_provider}")
+    logger.info(f"  Judge:            {judge_model_name}")
+    logger.info(f"  Output:           {config.output.directory}")
+    logger.info(f"  Formats:          {formats}")
 
     # Run audit
     score_data = run_audit(
         model=model,
         judge=judge,
         data_dir=data_dir,
-        output_dir=args.output,
+        output_dir=config.output.directory,
         formats=formats,
     )
 
-    print(f"\nAudit complete. LookAgain Score: {score_data['mirage_score']}/100")
+    logger.info(f"\nAudit complete. LookAgain Score: {score_data['mirage_score']}/100")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,42 @@
+# LookAgain Configuration File
+# Place this file as .lookagain.yaml in your project root
+
+# Model configuration
+model:
+  provider: openai  # Options: openai, anthropic, gemini, http
+  model: gpt-4o
+  # api_key: your-api-key-here  # Or use LOOKAGAIN_API_KEY env var
+  # base_url: http://localhost:8000/v1  # For http provider
+
+# Judge configuration
+judge:
+  # provider: openai  # Defaults to model.provider if not set
+  # model: gpt-4o  # Defaults to model.model if not set
+  # api_key: your-api-key-here  # Or use LOOKAGAIN_API_KEY env var
+
+# Embedding configuration
+embedding:
+  provider: openai
+  model: text-embedding-3-small
+  # api_key: your-api-key-here  # Or use LOOKAGAIN_API_KEY env var
+
+# Scenario thresholds
+scenario:
+  similarity_threshold: 0.70  # Threshold for wrong_image scenario
+  corruption_auc_threshold: 0.85  # Threshold for corruption scenario
+
+# Output configuration
+output:
+  directory: ./lookagain_results
+  formats:
+    - terminal
+    - json
+    - markdown
+
+# Logging configuration
+logging:
+  level: INFO  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  # file: lookagain.log  # Optional log file
+
+# Data directory (optional)
+# data_dir: /path/to/test_cases

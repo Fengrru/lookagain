@@ -1,7 +1,8 @@
 """Image corruption utilities for Corruption test scenario."""
 
+import os
 import random
-from typing import Dict
+from typing import Dict, Optional
 
 from PIL import Image, ImageFilter, ImageDraw
 
@@ -79,3 +80,20 @@ def _downscale_upscale(image: Image.Image, scale: float) -> Image.Image:
     w, h = image.size
     small = image.resize((int(w * scale), int(h * scale)), Image.BILINEAR)
     return small.resize((w, h), Image.BILINEAR)
+
+
+def load_image(path: str) -> Optional[Image.Image]:
+    """Load an image from path, return None on failure.
+
+    Args:
+        path: Path to image file.
+
+    Returns:
+        PIL Image in RGB mode, or None if loading fails.
+    """
+    if not path or not os.path.exists(path):
+        return None
+    try:
+        return Image.open(path).convert("RGB")
+    except Exception:
+        return None
