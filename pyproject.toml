@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lookagain"
 version = "0.1.0"
-description = "LookAgain: VLM Reliability Auditor — test if your VLM truly relies on visual evidence."
+description = "LookAgain: VLM Reliability Auditor -- test if your VLM truly relies on visual evidence."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"
@@ -38,19 +38,18 @@ classifiers = [
     "Topic :: Software Development :: Testing",
     "Operating System :: OS Independent",
 ]
-
-[project.urls]
-Homepage = "https://github.com/your-org/lookagain"
-Documentation = "https://github.com/your-org/lookagain#readme"
-Repository = "https://github.com/your-org/lookagain"
-Issues = "https://github.com/your-org/lookagain/issues"
-Changelog = "https://github.com/your-org/lookagain/blob/main/CHANGELOG.md"
-
 dependencies = [
     "openai>=1.0",
     "Pillow>=10.0",
     "numpy>=1.24",
 ]
+
+[project.urls]
+Homepage = "https://github.com/Fengrru/lookagain"
+Documentation = "https://github.com/Fengrru/lookagain#readme"
+Repository = "https://github.com/Fengrru/lookagain"
+Issues = "https://github.com/Fengrru/lookagain/issues"
+Changelog = "https://github.com/Fengrru/lookagain/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 anthropic = ["anthropic>=0.30.0"]
