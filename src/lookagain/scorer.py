@@ -10,10 +10,8 @@ All sub-indicators are on 0–100 scale (higher = worse).
 LookAgain Score is on 0–100 scale (higher = better).
 """
 
-from typing import Dict, List
 
 from .scenarios.base import TestResult
-
 
 # Weights for each sub-indicator (must sum to 1.0)
 WEIGHTS = {
@@ -25,12 +23,12 @@ WEIGHTS = {
 
 
 def compute_mirage_score(
-    missing_image_results: List[TestResult],
-    wrong_image_results: List[TestResult],
-    corruption_results: List[TestResult],
-    text_bias_results: List[TestResult],
+    missing_image_results: list[TestResult],
+    wrong_image_results: list[TestResult],
+    corruption_results: list[TestResult],
+    text_bias_results: list[TestResult],
     corruption_score: float,  # 0–100, from CorruptionScenario.corruption_score
-) -> Dict:
+) -> dict:
     """Compute the composite LookAgain Score and sub-indicators.
 
     Args:
@@ -100,7 +98,7 @@ def compute_mirage_score(
     }
 
 
-def aggregate_risk_categories(all_results: List[TestResult]) -> Dict[str, int]:
+def aggregate_risk_categories(all_results: list[TestResult]) -> dict[str, int]:
     """Count failures per risk category across all scenarios.
 
     Args:
@@ -109,7 +107,7 @@ def aggregate_risk_categories(all_results: List[TestResult]) -> Dict[str, int]:
     Returns:
         dict mapping risk_category → failure_count, sorted descending.
     """
-    counts: Dict[str, int] = {}
+    counts: dict[str, int] = {}
     for r in all_results:
         if not r.passed and r.risk_category:
             counts[r.risk_category] = counts.get(r.risk_category, 0) + 1
@@ -117,7 +115,7 @@ def aggregate_risk_categories(all_results: List[TestResult]) -> Dict[str, int]:
     return dict(sorted(counts.items(), key=lambda x: x[1], reverse=True))
 
 
-def _failure_rate(results: List[TestResult]) -> float:
+def _failure_rate(results: list[TestResult]) -> float:
     """Compute failure rate as percentage (0–100)."""
     if not results:
         return 0.0

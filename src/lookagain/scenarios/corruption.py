@@ -5,7 +5,6 @@ Measures embedding similarity decay between original-answer and each
 corrupted-answer. Score = area under the similarity curve (higher = more robust).
 """
 
-from typing import Dict, List
 
 from ..utils.embedding import compute_similarities
 from ..utils.image_utils import generate_corruptions, load_image
@@ -28,7 +27,7 @@ class CorruptionScenario(BaseScenario):
     def __init__(self):
         super().__init__("corruption")
 
-    def run(self, model, judge, test_cases: List[Dict]) -> List[TestResult]:
+    def run(self, model, judge, test_cases: list[dict]) -> list[TestResult]:
         self.results = []
 
         for tc in test_cases:

@@ -1,10 +1,9 @@
 """Text embedding similarity via OpenAI text-embedding-3-small."""
 
-from typing import List, Optional
+from typing import Optional
 
 import numpy as np
 from openai import OpenAI
-
 
 # Client cache to avoid creating new clients for each call
 _clients = {}
@@ -62,9 +61,9 @@ def compute_similarity(
 
 def compute_similarities(
     reference: str,
-    candidates: List[str],
+    candidates: list[str],
     api_key: Optional[str] = None,
-) -> List[float]:
+) -> list[float]:
     """Compute similarity of multiple candidates against a reference text.
 
     Args:

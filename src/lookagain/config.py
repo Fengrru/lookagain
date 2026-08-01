@@ -8,7 +8,7 @@ Supports loading configuration from:
 
 import os
 from dataclasses import dataclass, field
-from typing import Optional, List, Dict, Any
+from typing import Any, Optional
 
 
 @dataclass
@@ -47,7 +47,7 @@ class ScenarioConfig:
 class OutputConfig:
     """Output configuration."""
     directory: str = "./lookagain_results"
-    formats: List[str] = field(default_factory=lambda: ["terminal", "json", "markdown"])
+    formats: list[str] = field(default_factory=lambda: ["terminal", "json", "markdown"])
 
 
 @dataclass
@@ -115,7 +115,7 @@ def load_config_from_env(config: LookAgainConfig) -> LookAgainConfig:
     return config
 
 
-def load_config_from_file(file_path: str) -> Optional[Dict[str, Any]]:
+def load_config_from_file(file_path: str) -> Optional[dict[str, Any]]:
     """Load configuration from a file (JSON, YAML, or TOML).
 
     Args:
@@ -131,16 +131,16 @@ def load_config_from_file(file_path: str) -> Optional[Dict[str, Any]]:
 
     if ext == ".json":
         import json
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             return json.load(f)
 
     elif ext in (".yaml", ".yml"):
         try:
             import yaml
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 return yaml.safe_load(f)
-        except ImportError:
-            raise ImportError("PyYAML is required for YAML configuration files")
+        except ImportError as err:
+            raise ImportError("PyYAML is required for YAML configuration files") from err
 
     elif ext == ".toml":
         try:
@@ -148,8 +148,8 @@ def load_config_from_file(file_path: str) -> Optional[Dict[str, Any]]:
         except ImportError:
             try:
                 import tomli as tomllib
-            except ImportError:
-                raise ImportError("tomli is required for TOML configuration files on Python < 3.11")
+            except ImportError as err:
+                raise ImportError("tomli is required for TOML configuration files on Python < 3.11") from err
         with open(file_path, "rb") as f:
             return tomllib.load(f)
 
@@ -159,7 +159,7 @@ def load_config_from_file(file_path: str) -> Optional[Dict[str, Any]]:
 
 def load_config(
     config_file: Optional[str] = None,
-    cli_args: Optional[Dict[str, Any]] = None,
+    cli_args: Optional[dict[str, Any]] = None,
 ) -> LookAgainConfig:
     """Load configuration from multiple sources with priority.
 

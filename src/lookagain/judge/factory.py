@@ -3,7 +3,6 @@
 from lookagain.judge.base import BaseJudge
 from lookagain.judge.openai_judge import OpenAIJudge
 
-
 PROVIDERS = {
     "openai": OpenAIJudge,
     "anthropic": OpenAIJudge,  # Reuse OpenAIJudge shape via underlying client

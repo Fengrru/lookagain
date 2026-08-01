@@ -4,7 +4,6 @@ Tests whether misleading text prompts cause the model to ignore image content.
 Uses LLM-as-Judge exclusively (rules cannot handle semantic conflict detection).
 """
 
-from typing import Dict, List
 
 from ..utils.image_utils import load_image
 from .base import BaseScenario, TestResult
@@ -16,7 +15,7 @@ class TextBiasScenario(BaseScenario):
     def __init__(self):
         super().__init__("text_bias")
 
-    def run(self, model, judge, test_cases: List[Dict]) -> List[TestResult]:
+    def run(self, model, judge, test_cases: list[dict]) -> list[TestResult]:
         """Run text bias tests. Requires judge — cannot use rules alone."""
         self.results = []
 

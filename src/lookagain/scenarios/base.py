@@ -2,7 +2,6 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Dict, List
 
 
 @dataclass
@@ -16,7 +15,7 @@ class TestResult:
     passed: bool
     reason: str = ""
     risk_category: str = ""
-    details: Dict = field(default_factory=dict)
+    details: dict = field(default_factory=dict)
     trusts: str = ""  # for text_bias: "text", "image", or "uncertain"
 
 
@@ -29,15 +28,15 @@ class BaseScenario(ABC):
 
     def __init__(self, name: str):
         self.name = name
-        self.results: List[TestResult] = []
+        self.results: list[TestResult] = []
 
     @abstractmethod
     def run(
         self,
         model,  # BaseVLMModel
         judge,  # BaseJudge | None
-        test_cases: List[Dict],
-    ) -> List[TestResult]:
+        test_cases: list[dict],
+    ) -> list[TestResult]:
         """Run all test cases and return results."""
         ...
 
@@ -54,9 +53,9 @@ class BaseScenario(ABC):
         """Fraction of test cases that failed (0–100 scale)."""
         return (1.0 - self.pass_rate) * 100.0
 
-    def risk_categories(self) -> Dict[str, int]:
+    def risk_categories(self) -> dict[str, int]:
         """Count failures per risk category."""
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for r in self.results:
             if not r.passed and r.risk_category:
                 counts[r.risk_category] = counts.get(r.risk_category, 0) + 1

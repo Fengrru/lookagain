@@ -8,7 +8,7 @@ for CI / quick validation.
 import os
 import sys
 import tempfile
-from typing import Dict, Optional
+from typing import Optional
 
 import pytest
 from PIL import Image
@@ -19,7 +19,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from lookagain.judge.base import BaseJudge
 from lookagain.models.base import BaseVLMModel
 from lookagain.test_suite import run_audit
-
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "test_cases")
 
@@ -75,7 +74,7 @@ class FakeJudge(BaseJudge):
         model_answer: str,
         criteria: str,
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         if criteria == "missing_image":
             # Fabrication indicators mirror the scenario logic.
             fabricated = any(

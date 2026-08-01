@@ -3,7 +3,6 @@
 import json
 import os
 import sys
-from typing import Dict, List
 
 from .scenarios.base import TestResult
 from .utils.logging_config import get_logger
@@ -32,8 +31,8 @@ def _safe_marker(text: str) -> str:
 
 def print_terminal_report(
     model_name: str,
-    score_data: Dict,
-    risk_categories: Dict[str, int],
+    score_data: dict,
+    risk_categories: dict[str, int],
 ) -> None:
     """Print a formatted terminal report."""
     ms = score_data["mirage_score"]
@@ -103,9 +102,9 @@ def print_terminal_report(
 
 def generate_json_report(
     model_name: str,
-    score_data: Dict,
-    risk_categories: Dict[str, int],
-    all_results: List[TestResult],
+    score_data: dict,
+    risk_categories: dict[str, int],
+    all_results: list[TestResult],
     output_path: str,
 ) -> None:
     """Generate a JSON report file."""
@@ -146,9 +145,9 @@ def generate_json_report(
 
 def generate_markdown_report(
     model_name: str,
-    score_data: Dict,
-    risk_categories: Dict[str, int],
-    all_results: List[TestResult],
+    score_data: dict,
+    risk_categories: dict[str, int],
+    all_results: list[TestResult],
     output_path: str,
 ) -> None:
     """Generate a Markdown report file."""

@@ -2,7 +2,7 @@
 
 import json
 import time
-from typing import Dict, Optional
+from typing import Optional
 
 from openai import OpenAI
 
@@ -40,7 +40,7 @@ class OpenAIJudge(BaseJudge):
         model_answer: str,
         criteria: str,
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """Evaluate model answer against criteria using GPT-4o.
 
         Args:

@@ -4,11 +4,8 @@ Tests whether the model fabricates visual details when no image is provided.
 """
 
 import re
-from typing import Dict, List
-
 
 from .base import BaseScenario, TestResult
-
 
 # Keywords that indicate the model is refusing / acknowledging no image
 REJECTION_PATTERNS = [
@@ -35,7 +32,7 @@ class MissingImageScenario(BaseScenario):
     def __init__(self):
         super().__init__("missing_image")
 
-    def run(self, model, judge, test_cases: List[Dict]) -> List[TestResult]:
+    def run(self, model, judge, test_cases: list[dict]) -> list[TestResult]:
         self.results = []
 
         for tc in test_cases:
@@ -94,17 +91,11 @@ class MissingImageScenario(BaseScenario):
 
     def _check_rejection(self, answer: str) -> bool:
         """Check if answer contains rejection language."""
-        for pattern in REJECTION_PATTERNS:
-            if re.search(pattern, answer):
-                return True
-        return False
+        return any(re.search(pattern, answer) for pattern in REJECTION_PATTERNS)
 
     def _check_fabrication(self, answer: str) -> bool:
         """Check if answer contains indicators of fabricated visual content."""
-        for pattern in FABRICATION_INDICATORS:
-            if re.search(pattern, answer):
-                return True
-        return False
+        return any(re.search(pattern, answer) for pattern in FABRICATION_INDICATORS)
 
     def _judge_evaluate(
         self, judge, question: str, answer: str, test_id: str, risk_category: str

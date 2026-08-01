@@ -6,27 +6,27 @@ and aggregates results.
 
 import json
 import os
-from typing import Dict, List, Optional
+from typing import Optional
 
-from .models.base import BaseVLMModel
 from .judge.base import BaseJudge
-from .scenarios.base import TestResult
-from .scenarios.missing_image import MissingImageScenario
-from .scenarios.wrong_image import WrongImageScenario
-from .scenarios.corruption import CorruptionScenario
-from .scenarios.text_bias import TextBiasScenario
-from .scorer import compute_mirage_score, aggregate_risk_categories
+from .models.base import BaseVLMModel
 from .reporter import (
-    print_terminal_report,
     generate_json_report,
     generate_markdown_report,
+    print_terminal_report,
 )
+from .scenarios.base import TestResult
+from .scenarios.corruption import CorruptionScenario
+from .scenarios.missing_image import MissingImageScenario
+from .scenarios.text_bias import TextBiasScenario
+from .scenarios.wrong_image import WrongImageScenario
+from .scorer import aggregate_risk_categories, compute_mirage_score
 from .utils.logging_config import get_logger
 
 logger = get_logger(__name__)
 
 
-def load_test_cases(data_dir: str) -> Dict[str, List[Dict]]:
+def load_test_cases(data_dir: str) -> dict[str, list[dict]]:
     """Load all test case JSON files from data directory.
 
     Args:
@@ -46,7 +46,7 @@ def load_test_cases(data_dir: str) -> Dict[str, List[Dict]]:
     test_cases = {}
     for key, path in files.items():
         if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 test_cases[key] = json.load(f)
         else:
             logger.warning(f"Test case file not found: {path}")
@@ -60,8 +60,8 @@ def run_audit(
     judge: Optional[BaseJudge],
     data_dir: str,
     output_dir: Optional[str] = None,
-    formats: Optional[List[str]] = None,
-) -> Dict:
+    formats: Optional[list[str]] = None,
+) -> dict:
     """Run the full LookAgain.
 
     Args:
@@ -81,7 +81,7 @@ def run_audit(
     logger.info("Loading test cases...")
     test_cases = load_test_cases(data_dir)
 
-    all_results: List[TestResult] = []
+    all_results: list[TestResult] = []
 
     # --- Scenario 1: Missing Image ---
     logger.info("[1/4] Running Missing Image tests...")

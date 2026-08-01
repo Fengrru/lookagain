@@ -1,19 +1,19 @@
 """Quick smoke test for scorer and reporter modules."""
 
-import sys
-import os
 import json
+import os
+import sys
 import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from lookagain.scenarios.base import TestResult
-from lookagain.scorer import compute_mirage_score, aggregate_risk_categories
 from lookagain.reporter import (
-    print_terminal_report,
     generate_json_report,
     generate_markdown_report,
+    print_terminal_report,
 )
+from lookagain.scenarios.base import TestResult
+from lookagain.scorer import aggregate_risk_categories, compute_mirage_score
 
 # Mock test results
 mi_results = [

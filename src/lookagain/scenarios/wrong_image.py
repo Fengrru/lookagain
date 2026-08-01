@@ -5,12 +5,10 @@ Uses embedding similarity: high similarity between correct-image and
 wrong-image answers → model ignored the visual input (FAIL).
 """
 
-from typing import Dict, List
 
 from ..utils.embedding import compute_similarities
 from ..utils.image_utils import load_image
 from .base import BaseScenario, TestResult
-
 
 # Threshold: if the MAXIMUM similarity between correct-image and wrong-image
 # answers is above this threshold, the model is likely NOT relying on visual input.
@@ -25,7 +23,7 @@ class WrongImageScenario(BaseScenario):
     def __init__(self):
         super().__init__("wrong_image")
 
-    def run(self, model, judge, test_cases: List[Dict]) -> List[TestResult]:
+    def run(self, model, judge, test_cases: list[dict]) -> list[TestResult]:
         self.results = []
 
         for tc in test_cases:

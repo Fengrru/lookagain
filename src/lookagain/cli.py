@@ -13,7 +13,7 @@ import os
 import sys
 
 from lookagain.models.factory import list_providers as list_model_providers
-from lookagain.utils.logging_config import setup_logging, get_logger
+from lookagain.utils.logging_config import get_logger, setup_logging
 
 logger = get_logger(__name__)
 
@@ -145,11 +145,11 @@ def _count_test_cases(data_dir: str) -> int:
         filepath = os.path.join(data_dir, filename)
         if os.path.exists(filepath):
             try:
-                with open(filepath, "r", encoding="utf-8") as f:
+                with open(filepath, encoding="utf-8") as f:
                     data = json.load(f)
                     if isinstance(data, list):
                         count += len(data)
-            except (json.JSONDecodeError, IOError):
+            except (OSError, json.JSONDecodeError):
                 pass
     return count
 
@@ -166,7 +166,7 @@ def main():
     setup_logging()
 
     # Load configuration
-    from lookagain.config import load_config, get_default_config_path
+    from lookagain.config import get_default_config_path, load_config
 
     config_file = args.config or get_default_config_path()
     cli_args = {

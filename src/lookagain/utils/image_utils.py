@@ -2,12 +2,12 @@
 
 import os
 import random
-from typing import Dict, Optional
+from typing import Optional
 
-from PIL import Image, ImageFilter, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 
 
-def generate_corruptions(image: Image.Image) -> Dict[str, Image.Image]:
+def generate_corruptions(image: Image.Image) -> dict[str, Image.Image]:
     """Generate multiple degraded versions of an image.
 
     Args:

@@ -5,8 +5,8 @@ import io
 import time
 from typing import Optional
 
-from PIL import Image
 from openai import OpenAI
+from PIL import Image
 
 from .base import BaseVLMModel
 

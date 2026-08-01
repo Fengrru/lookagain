@@ -1,7 +1,6 @@
 """Abstract base class for LLM-as-Judge evaluators."""
 
 from abc import ABC, abstractmethod
-from typing import Dict
 
 
 class BaseJudge(ABC):
@@ -21,7 +20,7 @@ class BaseJudge(ABC):
         model_answer: str,
         criteria: str,
         **kwargs,
-    ) -> Dict:
+    ) -> dict:
         """Evaluate the model's answer against given criteria.
 
         Args:

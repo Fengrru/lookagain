@@ -6,7 +6,6 @@ from lookagain.models.gemini_model import GeminiVLMModel
 from lookagain.models.http_model import HTTPVLMModel
 from lookagain.models.openai_model import OpenAIVLMModel
 
-
 PROVIDERS = {
     "openai": OpenAIVLMModel,
     "anthropic": AnthropicVLMModel,
