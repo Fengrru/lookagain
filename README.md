@@ -27,6 +27,30 @@
 
 > **Key Insight**: Unlike training-based hallucination mitigators, LookAgain treats the model as a black box and only uses API calls. This makes it ideal for auditing commercial VLMs (OpenAI, Anthropic, Google Gemini) and local deployments alike.
 
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        LookAgain Architecture                   │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────┐     ┌──────────────┐     ┌───────────────────┐    │
+│  │   CLI   │────▶│ Model Adapter│────▶│  Test Scenarios   │    │
+│  └─────────┘     └──────────────┘     └───────────────────┘    │
+│       │                                       │                 │
+│       │                                       ▼                 │
+│       │                                ┌──────────────┐        │
+│       │                                │    Scorer    │        │
+│       │                                └──────────────┘        │
+│       │                                       │                 │
+│       │                                       ▼                 │
+│       │                                ┌──────────────┐        │
+│       └───────────────────────────────▶│   Reporter   │        │
+│                                        └──────────────┘        │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
 ---
 
 ## Key Features
@@ -66,6 +90,40 @@ Enterprises deploying VLMs face a hard question: *does this model actually look 
 | **Wrong Image** | Does the answer change appropriately when the image is swapped? | Embedding similarity comparison |
 | **Image Corruption** | Is the model robust to blur, noise, and occlusion? | Corruption robustness curve (AUC) |
 | **Text Bias** | Does misleading text cause the model to ignore the image? | LLM-as-Judge evaluation |
+
+### Test Scenarios Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     Test Scenarios Overview                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   Missing Image             Wrong Image           Image Corruption
+│   ┌─────────────┐          ┌─────────────┐        ┌─────────────┐
+│   │   No Image  │          │  Original   │        │  Original   │
+│   │      ?      │          │     vs      │        │     +       │
+│   │             │          │    Wrong    │        │  Corrupted  │
+│   └─────────────┘          └─────────────┘        └─────────────┘
+│         │                        │                       │
+│         ▼                        ▼                       ▼
+│   Fabrication              Similarity              Robustness
+│   Detection                Comparison              Measurement
+│                                                                 │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│                      Text Bias Test                             │
+│                      ┌─────────────┐                            │
+│                      │   Correct   │                            │
+│                      │   Image +   │                            │
+│                      │ Misleading  │                            │
+│                      │    Text     │                            │
+│                      └─────────────┘                            │
+│                           │                                     │
+│                           ▼                                     │
+│                      Bias Detection                             │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### LookAgain Score
 
@@ -159,7 +217,40 @@ lookagain audit --provider gemini --model gemini-1.5-flash
 lookagain audit --provider http --model Qwen2-VL-7B-Instruct --base-url http://localhost:8000/v1
 ```
 
-### 4. View Reports
+### 4. Example Output
+
+```
+$ lookagain audit --provider openai --model gpt-4o
+
+LookAgain
+  Provider:         openai
+  Model under test: gpt-4o
+  Judge provider:   openai
+  Judge:            gpt-4o
+  Output:           ./lookagain_results
+  Formats:          ['terminal', 'json', 'markdown']
+
+Loading test cases...
+[1/4] Running Missing Image tests...
+  12 tests, 2 failed
+[2/4] Running Wrong Image tests...
+  14 tests, 3 failed
+[3/4] Running Image Corruption tests...
+  12 tests, robustness score: 85.2%
+[4/4] Running Text Bias tests...
+  12 tests, 4 failed
+
++------------------------------------------+
+|          LookAgain Report                |
+|          Model: gpt-4o                   |
+|          LookAgain Score: 72.5/100       |
+|          MODERATE RISK                   |
++------------------------------------------+
+
+Audit complete. LookAgain Score: 72.5/100
+```
+
+### 5. View Reports
 
 Reports are saved to `./lookagain_results/`:
 
