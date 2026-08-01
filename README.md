@@ -29,26 +29,12 @@
 
 ### Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        LookAgain Architecture                   │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌─────────┐     ┌──────────────┐     ┌───────────────────┐    │
-│  │   CLI   │────▶│ Model Adapter│────▶│  Test Scenarios   │    │
-│  └─────────┘     └──────────────┘     └───────────────────┘    │
-│       │                                       │                 │
-│       │                                       ▼                 │
-│       │                                ┌──────────────┐        │
-│       │                                │    Scorer    │        │
-│       │                                └──────────────┘        │
-│       │                                       │                 │
-│       │                                       ▼                 │
-│       │                                ┌──────────────┐        │
-│       └───────────────────────────────▶│   Reporter   │        │
-│                                        └──────────────┘        │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+graph LR
+    A[CLI] --> B[Model Adapter]
+    B --> C[Test Scenarios]
+    C --> D[Scorer]
+    D --> E[Reporter]
 ```
 
 ---
@@ -93,36 +79,26 @@ Enterprises deploying VLMs face a hard question: *does this model actually look 
 
 ### Test Scenarios Overview
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     Test Scenarios Overview                     │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│   Missing Image             Wrong Image           Image Corruption
-│   ┌─────────────┐          ┌─────────────┐        ┌─────────────┐
-│   │   No Image  │          │  Original   │        │  Original   │
-│   │      ?      │          │     vs      │        │     +       │
-│   │             │          │    Wrong    │        │  Corrupted  │
-│   └─────────────┘          └─────────────┘        └─────────────┘
-│         │                        │                       │
-│         ▼                        ▼                       ▼
-│   Fabrication              Similarity              Robustness
-│   Detection                Comparison              Measurement
-│                                                                 │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│                      Text Bias Test                             │
-│                      ┌─────────────┐                            │
-│                      │   Correct   │                            │
-│                      │   Image +   │                            │
-│                      │ Misleading  │                            │
-│                      │    Text     │                            │
-│                      └─────────────┘                            │
-│                           │                                     │
-│                           ▼                                     │
-│                      Bias Detection                             │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph "Missing Image"
+        A1[No Image] --> A2[Fabrication Detection]
+    end
+    
+    subgraph "Wrong Image"
+        B1[Original] --> B2[Similarity Comparison]
+        B3[Wrong] --> B2
+    end
+    
+    subgraph "Image Corruption"
+        C1[Original] --> C2[Robustness Measurement]
+        C3[Corrupted] --> C2
+    end
+    
+    subgraph "Text Bias"
+        D1[Correct Image] --> D2[Bias Detection]
+        D3[Misleading Text] --> D2
+    end
 ```
 
 ### LookAgain Score
