@@ -14,6 +14,7 @@ from typing import Any, Optional
 @dataclass
 class ModelConfig:
     """Model configuration."""
+
     provider: str = "openai"
     model: str = "gpt-4o"
     api_key: Optional[str] = None
@@ -23,6 +24,7 @@ class ModelConfig:
 @dataclass
 class JudgeConfig:
     """Judge configuration."""
+
     provider: Optional[str] = None  # Defaults to model provider
     model: Optional[str] = None  # Defaults to model name
     api_key: Optional[str] = None
@@ -31,6 +33,7 @@ class JudgeConfig:
 @dataclass
 class EmbeddingConfig:
     """Embedding configuration."""
+
     provider: str = "openai"
     model: str = "text-embedding-3-small"
     api_key: Optional[str] = None
@@ -39,6 +42,7 @@ class EmbeddingConfig:
 @dataclass
 class ScenarioConfig:
     """Scenario thresholds configuration."""
+
     similarity_threshold: float = 0.70
     corruption_auc_threshold: float = 0.85
 
@@ -46,6 +50,7 @@ class ScenarioConfig:
 @dataclass
 class OutputConfig:
     """Output configuration."""
+
     directory: str = "./lookagain_results"
     formats: list[str] = field(default_factory=lambda: ["terminal", "json", "markdown"])
 
@@ -53,6 +58,7 @@ class OutputConfig:
 @dataclass
 class LoggingConfig:
     """Logging configuration."""
+
     level: str = "INFO"
     file: Optional[str] = None
 
@@ -60,6 +66,7 @@ class LoggingConfig:
 @dataclass
 class LookAgainConfig:
     """Main configuration class."""
+
     model: ModelConfig = field(default_factory=ModelConfig)
     judge: JudgeConfig = field(default_factory=JudgeConfig)
     embedding: EmbeddingConfig = field(default_factory=EmbeddingConfig)
@@ -131,16 +138,20 @@ def load_config_from_file(file_path: str) -> Optional[dict[str, Any]]:
 
     if ext == ".json":
         import json
+
         with open(file_path, encoding="utf-8") as f:
             return json.load(f)
 
     elif ext in (".yaml", ".yml"):
         try:
             import yaml
+
             with open(file_path, encoding="utf-8") as f:
                 return yaml.safe_load(f)
         except ImportError as err:
-            raise ImportError("PyYAML is required for YAML configuration files") from err
+            raise ImportError(
+                "PyYAML is required for YAML configuration files"
+            ) from err
 
     elif ext == ".toml":
         try:
@@ -149,7 +160,9 @@ def load_config_from_file(file_path: str) -> Optional[dict[str, Any]]:
             try:
                 import tomli as tomllib
             except ImportError as err:
-                raise ImportError("tomli is required for TOML configuration files on Python < 3.11") from err
+                raise ImportError(
+                    "tomli is required for TOML configuration files on Python < 3.11"
+                ) from err
         with open(file_path, "rb") as f:
             return tomllib.load(f)
 

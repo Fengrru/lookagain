@@ -10,7 +10,6 @@ All sub-indicators are on 0–100 scale (higher = worse).
 LookAgain Score is on 0–100 scale (higher = better).
 """
 
-
 from .scenarios.base import TestResult
 
 # Weights for each sub-indicator (must sum to 1.0)

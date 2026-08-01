@@ -4,7 +4,6 @@ Tests whether misleading text prompts cause the model to ignore image content.
 Uses LLM-as-Judge exclusively (rules cannot handle semantic conflict detection).
 """
 
-
 from ..utils.image_utils import load_image
 from .base import BaseScenario, TestResult
 

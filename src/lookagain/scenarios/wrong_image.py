@@ -5,7 +5,6 @@ Uses embedding similarity: high similarity between correct-image and
 wrong-image answers → model ignored the visual input (FAIL).
 """
 
-
 from ..utils.embedding import compute_similarities
 from ..utils.image_utils import load_image
 from .base import BaseScenario, TestResult

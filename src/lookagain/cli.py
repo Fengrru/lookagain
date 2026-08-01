@@ -141,7 +141,12 @@ def _count_test_cases(data_dir: str) -> int:
     import json
 
     count = 0
-    for filename in ["missing_image.json", "wrong_image.json", "corruption.json", "text_bias.json"]:
+    for filename in [
+        "missing_image.json",
+        "wrong_image.json",
+        "corruption.json",
+        "text_bias.json",
+    ]:
         filepath = os.path.join(data_dir, filename)
         if os.path.exists(filepath):
             try:

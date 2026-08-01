@@ -5,7 +5,6 @@ Measures embedding similarity decay between original-answer and each
 corrupted-answer. Score = area under the similarity curve (higher = more robust).
 """
 
-
 from ..utils.embedding import compute_similarities
 from ..utils.image_utils import generate_corruptions, load_image
 from .base import BaseScenario, TestResult
