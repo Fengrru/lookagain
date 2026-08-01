@@ -33,14 +33,14 @@
 
 | Feature | Description |
 |---------|-------------|
-| 🎯 **Black-box Testing** | No access to model weights required — API-only evaluation |
-| 📊 **Comprehensive Scenarios** | 4 test dimensions covering visual reliance, robustness, and bias |
-| 🔌 **Multi-provider Support** | OpenAI, Anthropic, Google Gemini, and OpenAI-compatible endpoints |
-| 📈 **Unified Scoring** | Single 0–100 LookAgain Score with clear risk bands |
-| 🛡️ **LLM-as-Judge** | Optional AI-powered answer evaluation for nuanced cases |
-| 📝 **Multiple Reports** | Terminal, JSON, and Markdown output formats |
-| ⚡ **Dry-run Mode** | Estimate token usage and costs before running tests |
-| 🔧 **Configurable** | YAML/TOML/JSON config files + environment variables |
+| **Black-box Testing** | No access to model weights required -- API-only evaluation |
+| **Comprehensive Scenarios** | 4 test dimensions covering visual reliance, robustness, and bias |
+| **Multi-provider Support** | OpenAI, Anthropic, Google Gemini, and OpenAI-compatible endpoints |
+| **Unified Scoring** | Single 0-100 LookAgain Score with clear risk bands |
+| **LLM-as-Judge** | Optional AI-powered answer evaluation for nuanced cases |
+| **Multiple Reports** | Terminal, JSON, and Markdown output formats |
+| **Dry-run Mode** | Estimate token usage and costs before running tests |
+| **Configurable** | YAML/TOML/JSON config files + environment variables |
 
 ---
 
@@ -50,11 +50,11 @@ Enterprises deploying VLMs face a hard question: *does this model actually look 
 
 ### Use Cases
 
-- **Pre-deployment Validation** — Verify VLM products before production rollout
-- **Vendor Comparison** — Score GPT-4o, Claude, Gemini, and open-source VLMs on the same benchmark
-- **Regression Testing** — Detect performance degradation after model updates
-- **Compliance Reporting** — Generate evidence for EU AI Act, NIST AI RMF frameworks
-- **Research Benchmarking** — Standardized evaluation for academic papers
+- **Pre-deployment Validation** -- Verify VLM products before production rollout
+- **Vendor Comparison** -- Score GPT-4o, Claude, Gemini, and open-source VLMs on the same benchmark
+- **Regression Testing** -- Detect performance degradation after model updates
+- **Compliance Reporting** -- Generate evidence for EU AI Act, NIST AI RMF frameworks
+- **Research Benchmarking** -- Standardized evaluation for academic papers
 
 ---
 
@@ -69,17 +69,17 @@ Enterprises deploying VLMs face a hard question: *does this model actually look 
 
 ### LookAgain Score
 
-The final **LookAgain Score** (0–100) combines these four dimensions:
+The final **LookAgain Score** (0-100) combines these four dimensions:
 
 ```
-Score = 100 - (MissingImage × 0.35 + WrongImage × 0.30 + (100 - Corruption) × 0.15 + TextBias × 0.20)
+Score = 100 - (MissingImage * 0.35 + WrongImage * 0.30 + (100 - Corruption) * 0.15 + TextBias * 0.20)
 ```
 
 | Score Range | Risk Level | Recommendation |
 |-------------|------------|----------------|
-| 85–100 | 🟢 LOW RISK | Model shows strong visual reliance |
-| 60–84 | 🟡 MODERATE RISK | Some visual reliance issues detected |
-| 0–59 | 🔴 HIGH RISK | Significant visual reliance problems |
+| 85-100 | LOW RISK | Model shows strong visual reliance |
+| 60-84 | MODERATE RISK | Some visual reliance issues detected |
+| 0-59 | HIGH RISK | Significant visual reliance problems |
 
 ---
 
@@ -99,7 +99,7 @@ Score = 100 - (MissingImage × 0.35 + WrongImage × 0.30 + (100 - Corruption) ×
 ### From Source (Recommended)
 
 ```bash
-git clone https://github.com/your-org/lookagain.git
+git clone https://github.com/Fengrru/lookagain.git
 cd lookagain
 pip install -e .
 ```
@@ -206,7 +206,7 @@ logging:
 | `LOOKAGAIN_PROVIDER` | Model provider | `openai` |
 | `LOOKAGAIN_MODEL` | Model name | `gpt-4o` |
 | `LOOKAGAIN_API_KEY` | API key | Provider-specific |
-| `LOOKAGAIN_HTTP_BASE_URL` | HTTP provider base URL | — |
+| `LOOKAGAIN_HTTP_BASE_URL` | HTTP provider base URL | -- |
 | `LOOKAGAIN_OUTPUT_DIR` | Output directory | `./lookagain_results` |
 | `LOOKAGAIN_LOG_LEVEL` | Logging level | `INFO` |
 
@@ -224,12 +224,12 @@ lookagain audit [OPTIONS]
 | `--model` | Model identifier | `gpt-4o` |
 | `--judge-provider` | Judge provider | Same as `--provider` |
 | `--judge` | Judge model | Same as `--model` |
-| `--base-url` | Base URL for HTTP providers | — |
+| `--base-url` | Base URL for HTTP providers | -- |
 | `--output` | Output directory | `./lookagain_results` |
 | `--format` | Report formats (comma-separated) | `terminal,json,markdown` |
 | `--data-dir` | Custom test cases directory | Built-in |
-| `--dry-run` | Estimate token usage | — |
-| `--api-key` | API key (overrides env var) | — |
+| `--dry-run` | Estimate token usage | -- |
+| `--api-key` | API key (overrides env var) | -- |
 | `--config` | Config file path | `.lookagain.yaml` |
 
 ---
@@ -310,7 +310,7 @@ lookagain audit --provider openai --model gpt-4o --data-dir ./my_test_cases
 ### Setup Development Environment
 
 ```bash
-git clone https://github.com/your-org/lookagain.git
+git clone https://github.com/Fengrru/lookagain.git
 cd lookagain
 pip install -e ".[dev]"
 ```
@@ -368,9 +368,10 @@ If you use LookAgain in your research, please cite:
 ```bibtex
 @software{lookagain2024,
   title={LookAgain: Black-box Reliability Auditor for Vision-Language Models},
+  author={Fengrru},
   year={2024},
   version={0.1.0},
-  url={https://github.com/your-org/lookagain}
+  url={https://github.com/Fengrru/lookagain}
 }
 ```
 
@@ -378,7 +379,7 @@ If you use LookAgain in your research, please cite:
 
 ## License
 
-This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License -- see [LICENSE](LICENSE) for details.
 
 ---
 

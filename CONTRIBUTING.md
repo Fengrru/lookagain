@@ -223,4 +223,4 @@ By contributing, you agree that your contributions will be licensed under the MI
 - Start a discussion for general questions
 - Check existing issues before creating new ones
 
-Thank you for contributing! 🎉
+Thank you for contributing!
