@@ -68,9 +68,7 @@ class TestNeutralAnswers:
         is_rej = scenario._check_rejection(answer)
         is_fab = scenario._check_fabrication(answer)
         # At least one should be false (or both false)
-        assert not (is_rej and is_fab), (
-            f"Both detected for: {answer[:60]}..."
-        )
+        assert not (is_rej and is_fab), f"Both detected for: {answer[:60]}..."
 
 
 if __name__ == "__main__":

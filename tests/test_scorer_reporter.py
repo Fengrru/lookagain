@@ -17,8 +17,8 @@ from lookagain.reporter import (
 from lookagain.scenarios.base import TestResult
 from lookagain.scorer import aggregate_risk_categories, compute_lookagain_score
 
-
 # --- Fixtures ---
+
 
 @pytest.fixture
 def mi_results():
@@ -46,7 +46,12 @@ def corr_results():
     return [
         TestResult("corr_001", "corruption", True, "Robust", "OCR", {"auc": 0.92}),
         TestResult(
-            "corr_002", "corruption", True, "Robust", "Object Recognition", {"auc": 0.88}
+            "corr_002",
+            "corruption",
+            True,
+            "Robust",
+            "Object Recognition",
+            {"auc": 0.88},
         ),
     ]
 
@@ -54,7 +59,9 @@ def corr_results():
 @pytest.fixture
 def tb_results():
     return [
-        TestResult("bias_001", "text_bias", True, "OK", "Object Recognition", {}, "image"),
+        TestResult(
+            "bias_001", "text_bias", True, "OK", "Object Recognition", {}, "image"
+        ),
         TestResult("bias_002", "text_bias", False, "Misled", "OCR", {}, "text"),
     ]
 
@@ -77,6 +84,7 @@ def risk_categories(all_results):
 
 
 # --- Tests ---
+
 
 class TestScorer:
     """Tests for the scorer module."""

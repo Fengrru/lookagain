@@ -147,8 +147,8 @@ def test_full_audit_pipeline(monkeypatch):
     # Mock embedding to avoid requiring OpenAI API key in smoke test.
     # Patch at the call sites (scenario modules) since they imported the
     # function by name.
-    import lookagain.scenarios.wrong_image as wi_mod
     import lookagain.scenarios.corruption as corr_mod
+    import lookagain.scenarios.wrong_image as wi_mod
 
     def fake_compute_similarities(reference, candidates, **kwargs):
         # Return low similarity so wrong_image tests pass (model detects differences)

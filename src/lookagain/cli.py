@@ -259,7 +259,9 @@ def main():
         formats=formats,
     )
 
-    logger.info(f"\nAudit complete. LookAgain Score: {score_data['lookagain_score']}/100")
+    logger.info(
+        f"\nAudit complete. LookAgain Score: {score_data['lookagain_score']}/100"
+    )
 
 
 if __name__ == "__main__":
