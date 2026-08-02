@@ -1,27 +1,33 @@
 """Factory for instantiating judge adapters by provider name."""
 
+from typing import Optional
+
+from lookagain.judge.anthropic_judge import AnthropicJudge
 from lookagain.judge.base import BaseJudge
+from lookagain.judge.gemini_judge import GeminiJudge
 from lookagain.judge.openai_judge import OpenAIJudge
 
 PROVIDERS = {
     "openai": OpenAIJudge,
-    "anthropic": OpenAIJudge,  # Reuse OpenAIJudge shape via underlying client
-    "gemini": OpenAIJudge,
-    "http": OpenAIJudge,
+    "anthropic": AnthropicJudge,
+    "gemini": GeminiJudge,
+    "http": OpenAIJudge,  # OpenAI-compatible endpoint
 }
 
 
 def create_judge(
     provider: str,
     model_name: str,
-    api_key: str | None = None,
-    base_url: str | None = None,
+    api_key: Optional[str] = None,
+    base_url: Optional[str] = None,
 ) -> BaseJudge:
-    """Create a judge adapter.
+    """Create a judge adapter for the given provider.
 
-    For now all providers are backed by OpenAIJudge because the judge only
-    needs text-in/text-out. For Anthropic/Gemini/HTTP the caller can provide
-    the corresponding api_key/base_url and model_name.
+    Each provider uses a native adapter that talks to the correct API:
+      - openai   -> OpenAIJudge (OpenAI Chat Completions API)
+      - anthropic -> AnthropicJudge (Anthropic Messages API)
+      - gemini   -> GeminiJudge (Google Generative AI API)
+      - http     -> OpenAIJudge (OpenAI-compatible local server)
 
     Args:
         provider: One of "openai", "anthropic", "gemini", "http".
@@ -42,7 +48,7 @@ def create_judge(
     if api_key is not None:
         kwargs["api_key"] = api_key
 
-    # HTTP judge can target a local OpenAI-compatible server.
+    # HTTP judge targets a local OpenAI-compatible server.
     if provider == "http" and base_url is not None:
         from openai import OpenAI
 

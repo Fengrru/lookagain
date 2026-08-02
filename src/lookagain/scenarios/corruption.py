@@ -6,6 +6,7 @@ corrupted-answer. Score = area under the similarity curve (higher = more robust)
 """
 
 from ..utils.embedding import compute_similarities
+from ..utils.embedding_config import get_embedding_settings
 from ..utils.image_utils import generate_corruptions, load_image
 from .base import BaseScenario, TestResult
 
@@ -63,9 +64,13 @@ class CorruptionScenario(BaseScenario):
 
             # Compute similarities between original and each corruption
             names = list(corruption_answers.keys())
+            emb = get_embedding_settings()
             sims = compute_similarities(
                 answer_original,
                 [corruption_answers[n] for n in names],
+                api_key=emb.api_key,
+                model=emb.model,
+                base_url=emb.base_url,
             )
 
             # Curve area under similarity (simple mean)
@@ -110,8 +115,10 @@ class CorruptionScenario(BaseScenario):
         """Aggregate corruption robustness score (0–100).
 
         Calculated as the mean AUC across all test cases, scaled to 0–100.
+        Returns 0.0 if no test cases have been run yet (no data = no
+        robustness evidence, not a perfect score).
         """
         if not self.results:
-            return 100.0
+            return 0.0
         auc_values = [r.details.get("auc", 0.0) for r in self.results]
         return (sum(auc_values) / len(auc_values)) * 100.0

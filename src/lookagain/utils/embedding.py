@@ -1,4 +1,8 @@
-"""Text embedding similarity via OpenAI text-embedding-3-small."""
+"""Text embedding similarity via OpenAI text-embedding-3-small.
+
+Supports configurable model name and API key via EmbeddingConfig.
+Falls back to environment variables when no explicit config is provided.
+"""
 
 from typing import Optional
 
@@ -6,28 +10,41 @@ import numpy as np
 from openai import OpenAI
 
 # Client cache to avoid creating new clients for each call
+# Key: (api_key, base_url) tuple
 _clients = {}
 
+# Default embedding model
+_DEFAULT_MODEL = "text-embedding-3-small"
 
-def _get_client(api_key: Optional[str] = None) -> OpenAI:
+
+def _get_client(
+    api_key: Optional[str] = None,
+    base_url: Optional[str] = None,
+) -> OpenAI:
     """Get or create an OpenAI client with caching.
 
     Args:
-        api_key: Optional API key. If None, uses environment variable.
+        api_key: Optional API key. If None, reads from env.
+        base_url: Optional base URL for custom endpoints.
 
     Returns:
         Cached OpenAI client instance.
     """
-    client_key = api_key or "default"
-    if client_key not in _clients:
-        _clients[client_key] = OpenAI(api_key=api_key)
-    return _clients[client_key]
+    cache_key = (api_key or "default", base_url or "default")
+    if cache_key not in _clients:
+        kwargs = {"api_key": api_key}
+        if base_url:
+            kwargs["base_url"] = base_url
+        _clients[cache_key] = OpenAI(**kwargs)
+    return _clients[cache_key]
 
 
 def compute_similarity(
     text_a: str,
     text_b: str,
     api_key: Optional[str] = None,
+    model: str = _DEFAULT_MODEL,
+    base_url: Optional[str] = None,
 ) -> float:
     """Compute cosine similarity between two texts using OpenAI embeddings.
 
@@ -35,14 +52,16 @@ def compute_similarity(
         text_a: First text.
         text_b: Second text.
         api_key: OpenAI API key. If None, reads from env.
+        model: Embedding model name. Defaults to text-embedding-3-small.
+        base_url: Optional base URL for custom endpoints.
 
     Returns:
         Cosine similarity in [0, 1].
     """
-    client = _get_client(api_key)
+    client = _get_client(api_key, base_url)
 
     response = client.embeddings.create(
-        model="text-embedding-3-small",
+        model=model,
         input=[text_a, text_b],
     )
     emb_a = np.array(response.data[0].embedding)
@@ -63,6 +82,8 @@ def compute_similarities(
     reference: str,
     candidates: list[str],
     api_key: Optional[str] = None,
+    model: str = _DEFAULT_MODEL,
+    base_url: Optional[str] = None,
 ) -> list[float]:
     """Compute similarity of multiple candidates against a reference text.
 
@@ -70,6 +91,8 @@ def compute_similarities(
         reference: The reference text.
         candidates: List of candidate texts.
         api_key: OpenAI API key.
+        model: Embedding model name. Defaults to text-embedding-3-small.
+        base_url: Optional base URL for custom endpoints.
 
     Returns:
         List of cosine similarities, one per candidate.
@@ -77,11 +100,11 @@ def compute_similarities(
     if not candidates:
         return []
 
-    client = _get_client(api_key)
+    client = _get_client(api_key, base_url)
     all_texts = [reference] + candidates
 
     response = client.embeddings.create(
-        model="text-embedding-3-small",
+        model=model,
         input=all_texts,
     )
     embeddings = [np.array(d.embedding) for d in response.data]

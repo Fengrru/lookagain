@@ -211,6 +211,13 @@ def main():
     from lookagain.judge.factory import create_judge
     from lookagain.models.factory import create_model
     from lookagain.test_suite import run_audit
+    from lookagain.utils.embedding_config import configure_embedding
+
+    # Configure global embedding settings
+    configure_embedding(
+        api_key=config.embedding.api_key,
+        model=config.embedding.model,
+    )
 
     # Build model adapter
     model_kwargs = {"model_name": config.model.model}
@@ -224,13 +231,13 @@ def main():
     # Build judge adapter
     judge_provider = config.judge.provider or config.model.provider
     judge_model_name = config.judge.model or config.model.model
-    judge_kwargs = {"model_name": judge_model_name}
-    if config.judge.api_key:
-        judge_kwargs["api_key"] = config.judge.api_key
-    if judge_provider == "http":
-        judge_kwargs["base_url"] = config.model.base_url
 
-    judge = create_judge(judge_provider, **judge_kwargs)
+    judge = create_judge(
+        judge_provider,
+        model_name=judge_model_name,
+        api_key=config.judge.api_key,
+        base_url=config.model.base_url if judge_provider == "http" else None,
+    )
 
     # Parse formats
     formats = config.output.formats
@@ -252,7 +259,7 @@ def main():
         formats=formats,
     )
 
-    logger.info(f"\nAudit complete. LookAgain Score: {score_data['mirage_score']}/100")
+    logger.info(f"\nAudit complete. LookAgain Score: {score_data['lookagain_score']}/100")
 
 
 if __name__ == "__main__":

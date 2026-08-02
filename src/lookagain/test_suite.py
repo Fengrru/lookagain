@@ -20,7 +20,7 @@ from .scenarios.corruption import CorruptionScenario
 from .scenarios.missing_image import MissingImageScenario
 from .scenarios.text_bias import TextBiasScenario
 from .scenarios.wrong_image import WrongImageScenario
-from .scorer import aggregate_risk_categories, compute_mirage_score
+from .scorer import aggregate_risk_categories, compute_lookagain_score
 from .utils.logging_config import get_logger
 
 logger = get_logger(__name__)
@@ -28,6 +28,11 @@ logger = get_logger(__name__)
 
 def load_test_cases(data_dir: str) -> dict[str, list[dict]]:
     """Load all test case JSON files from data directory.
+
+    Image paths in the JSON files are relative to the parent of ``data_dir``
+    (e.g. ``images/wrong/cat.jpg`` resolves to ``<parent>/images/wrong/cat.jpg``).
+    This function converts them to absolute paths so that scenarios can load
+    images regardless of the current working directory.
 
     Args:
         data_dir: Path to the test_cases directory.
@@ -43,16 +48,47 @@ def load_test_cases(data_dir: str) -> dict[str, list[dict]]:
         "text_bias": os.path.join(data_dir, "text_bias.json"),
     }
 
+    # Image paths in JSON are relative to the parent of data_dir
+    # (e.g. data_dir = .../data/test_cases -> images live in .../data/images)
+    image_base = os.path.dirname(data_dir)  # .../data
+
     test_cases = {}
     for key, path in files.items():
         if os.path.exists(path):
             with open(path, encoding="utf-8") as f:
-                test_cases[key] = json.load(f)
+                cases = json.load(f)
+                # Resolve relative image paths to absolute
+                for tc in cases:
+                    _resolve_image_paths(tc, image_base)
+                test_cases[key] = cases
         else:
             logger.warning(f"Test case file not found: {path}")
             test_cases[key] = []
 
     return test_cases
+
+
+def _resolve_image_paths(tc: dict, base_dir: str) -> None:
+    """Convert relative image paths in a test case to absolute paths.
+
+    Handles keys: image_path, correct_image_path, wrong_image_paths.
+
+    Args:
+        tc: Test case dict (modified in place).
+        base_dir: Base directory for resolving relative paths.
+    """
+    path_keys = ["image_path", "correct_image_path"]
+    for key in path_keys:
+        val = tc.get(key, "")
+        if val and not os.path.isabs(val):
+            tc[key] = os.path.join(base_dir, val)
+
+    wrong_paths = tc.get("wrong_image_paths", [])
+    if wrong_paths:
+        tc["wrong_image_paths"] = [
+            os.path.join(base_dir, p) if not os.path.isabs(p) else p
+            for p in wrong_paths
+        ]
 
 
 def run_audit(
@@ -72,7 +108,7 @@ def run_audit(
         formats: List of report formats: "terminal", "json", "markdown".
 
     Returns:
-        dict with mirage_score and all sub-indicators.
+        dict with lookagain_score and all sub-indicators.
     """
     if formats is None:
         formats = ["terminal"]
@@ -116,7 +152,7 @@ def run_audit(
     logger.info(f"  {len(tb_results)} tests, {tb_failed} failed")
 
     # Compute scores
-    score_data = compute_mirage_score(
+    score_data = compute_lookagain_score(
         missing_image_results=mi_results,
         wrong_image_results=wi_results,
         corruption_results=corr_results,

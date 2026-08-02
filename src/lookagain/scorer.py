@@ -21,7 +21,7 @@ WEIGHTS = {
 }
 
 
-def compute_mirage_score(
+def compute_lookagain_score(
     missing_image_results: list[TestResult],
     wrong_image_results: list[TestResult],
     corruption_results: list[TestResult],
@@ -38,7 +38,7 @@ def compute_mirage_score(
         corruption_score: Pre-computed corruption robustness score (0–100).
 
     Returns:
-        dict with keys: mirage_score (LookAgain Score), visual_reliance,
+        dict with keys: lookagain_score (LookAgain Score), visual_reliance,
                        missing_image_failure, wrong_image_failure,
                        corruption_robustness, text_bias_rate, sub_scores
     """
@@ -56,7 +56,7 @@ def compute_mirage_score(
         + text_bias_rate * WEIGHTS["text_bias"]
     )
 
-    mirage_score = max(0.0, min(100.0, 100.0 - penalty))
+    lookagain_score = max(0.0, min(100.0, 100.0 - penalty))
 
     # Visual Reliance = 100 - (MissingImageFailure * 0.4 + WrongImageFailure * 0.6)
     visual_reliance = max(
@@ -64,7 +64,7 @@ def compute_mirage_score(
     )
 
     return {
-        "mirage_score": round(mirage_score, 1),
+        "lookagain_score": round(lookagain_score, 1),
         "visual_reliance": round(visual_reliance, 1),
         "missing_image_failure": round(missing_image_failure, 1),
         "wrong_image_failure": round(wrong_image_failure, 1),

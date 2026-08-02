@@ -35,7 +35,7 @@ def print_terminal_report(
     risk_categories: dict[str, int],
 ) -> None:
     """Print a formatted terminal report."""
-    ms = score_data["mirage_score"]
+    ms = score_data["lookagain_score"]
     vr = score_data["visual_reliance"]
     mif = score_data["missing_image_failure"]
     wif = score_data["wrong_image_failure"]
@@ -79,21 +79,22 @@ def print_terminal_report(
     )
 
     sep = "+" + "-" * 42 + "+"
+    mid = "|" + "-" * 42 + "|"
     report = f"""
 {sep}
 |          LookAgain Report              |
 |          Model: {model_name:<28}|
 |          LookAgain Score: {ms:<4.1f}/100        {risk_level:<20}|
-{sep.replace("+", "|").replace("-", "-")}
-| Visual Reliance        {vr:<5.1f}%    {marker(wif, good_below=True):6s} |
+{mid}
+| Visual Reliance        {vr:<5.1f}%    {marker(vr, good_below=False):6s} |
 | Missing Image Failure  {mif:<5.1f}%    {marker(mif, good_below=True):6s} |
 | Wrong Image Failure    {wif:<5.1f}%    {marker(wif, good_below=True):6s} |
-| Corruption Robustness  {cr:<5.1f}%    {marker(100 - cr, good_below=True):6s} |
+| Corruption Robustness  {cr:<5.1f}%    {marker(cr, good_below=False):6s} |
 | Text Bias Rate         {tbr:<5.1f}%    {marker(tbr, good_below=True):6s} |
-{sep.replace("+", "|").replace("-", "-")}
+{mid}
 | High Risk Categories:                  |
 {risk_lines}
-{sep.replace("+", "|").replace("-", "-")}
+{mid}
 | Detailed report: ./lookagain_report.md  |
 {sep}
 """
@@ -110,7 +111,7 @@ def generate_json_report(
     """Generate a JSON report file."""
     report = {
         "model": model_name,
-        "mirage_score": score_data["mirage_score"],
+        "lookagain_score": score_data["lookagain_score"],
         "indicators": {
             "visual_reliance": score_data["visual_reliance"],
             "missing_image_failure": score_data["missing_image_failure"],
@@ -151,7 +152,7 @@ def generate_markdown_report(
     output_path: str,
 ) -> None:
     """Generate a Markdown report file."""
-    ms = score_data["mirage_score"]
+    ms = score_data["lookagain_score"]
 
     # Risk level
     if ms >= 85:

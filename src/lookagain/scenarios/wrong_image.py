@@ -6,6 +6,7 @@ wrong-image answers → model ignored the visual input (FAIL).
 """
 
 from ..utils.embedding import compute_similarities
+from ..utils.embedding_config import get_embedding_settings
 from ..utils.image_utils import load_image
 from .base import BaseScenario, TestResult
 
@@ -57,7 +58,14 @@ class WrongImageScenario(BaseScenario):
             ]
 
             # Compute similarity between correct answer and each wrong answer
-            similarities = compute_similarities(answer_correct, answers_wrong)
+            emb = get_embedding_settings()
+            similarities = compute_similarities(
+                answer_correct,
+                answers_wrong,
+                api_key=emb.api_key,
+                model=emb.model,
+                base_url=emb.base_url,
+            )
             max_sim = max(similarities) if similarities else 1.0
             avg_sim = sum(similarities) / len(similarities) if similarities else 1.0
 
