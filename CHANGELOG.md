@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-08-02
+
 ### Added
 
+- Anthropic and Gemini LLM-as-Judge adapters (`anthropic_judge.py`, `gemini_judge.py`)
+- Configurable embedding settings (`embedding_config.py`)
 - Configuration file support (YAML/TOML/JSON)
 - Environment variable configuration
 - Structured logging system
@@ -25,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- README installation instructions now prefer PyPI (`pip install lookagain`)
 - Replaced duplicate `_load_image()` methods with shared utility function
 - Improved error messages and logging output
 - Updated documentation to professional standards
