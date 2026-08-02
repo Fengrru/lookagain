@@ -130,7 +130,19 @@ Score = 100 - (MissingImage * 0.35 + WrongImage * 0.30 + (100 - Corruption) * 0.
 
 ## Installation
 
-### From Source (Recommended)
+### From PyPI (Recommended)
+
+```bash
+pip install lookagain
+```
+
+### With All Providers
+
+```bash
+pip install "lookagain[all]"
+```
+
+### From Source
 
 ```bash
 git clone https://github.com/Fengrru/lookagain.git
@@ -138,17 +150,11 @@ cd lookagain
 pip install -e .
 ```
 
-### With All Providers
-
-```bash
-pip install -e ".[all]"
-```
-
 ### Individual Providers
 
 ```bash
-pip install -e ".[anthropic]"    # Anthropic Claude
-pip install -e ".[gemini]"       # Google Gemini
+pip install "lookagain[anthropic]"    # Anthropic Claude
+pip install "lookagain[gemini]"       # Google Gemini
 ```
 
 ### Requirements
